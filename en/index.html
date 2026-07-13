@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Commuter Allowance Calculator 2026. Calculate your tax relief for the commute to work by car or public transport.">
+    <title>Commuter Allowance Calculator 2026 - Calculate Travel Costs</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Navbar (Common for both views) -->
+    <nav class="bg-white border-b border-slate-200 py-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-[#004B87] flex items-center gap-2 tracking-tight">
+                <span>🚗</span> Commuter Allowance Calculator
+            </h1>
+            <div class="flex gap-3 text-sm font-bold text-slate-400">
+                <!-- Links adjusted for the /en/ folder -->
+                <a href="../index.html" class="hover:text-[#004B87] cursor-pointer transition">DE</a>
+                <span class="font-normal text-slate-300">|</span>
+                <a href="#" class="text-[#004B87] cursor-pointer hover:opacity-80 transition">EN</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- ========================================== -->
+    <!--            📱 MOBILE VIEW SECTION          -->
+    <!-- ========================================== -->
+    <main class="block lg:hidden max-w-xl mx-auto px-4 py-6 flex flex-col space-y-6">
+        
+        <!-- 1. Mobile Calculator -->
+        <div class="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] p-6 border border-slate-200">
+            <h2 class="text-xl font-bold mb-2 text-slate-800">Commuter Allowance</h2>
+            <p class="text-slate-500 text-xs mb-5">Calculate your tax relief (incl. €4,500 maximum limit).</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tax Year</label>
+                    <select id="year-mobile" class="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                        <option value="2026" selected>2026</option>
+                        <option value="2025">2025</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">One-way Distance (km)</label>
+                    <input id="distance-mobile" type="number" min="0" placeholder="e.g. 25" class="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Working Days (Own Car)</label>
+                    <input id="days-car-mobile" type="number" min="0" placeholder="e.g. 220" class="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Working Days (Public Transport)</label>
+                    <input id="days-public-mobile" type="number" min="0" placeholder="e.g. 0" class="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                </div>
+                
+                <button onclick="calculateDeduction('mobile')" class="w-full bg-[#004B87] text-white font-semibold py-3 px-4 rounded-md hover:bg-[#003865] mt-2">
+                    Calculate
+                </button>
+            </div>
+            
+            <div class="mt-6 p-4 bg-[#F0F5FA] rounded-md text-center border border-[#D9E6F2]">
+                <p class="text-[10px] font-semibold uppercase tracking-wider text-[#004B87] mb-1 opacity-80">Deductible Allowance</p>
+                <p id="result-mobile" class="text-3xl font-bold text-[#004B87]">€0.00</p>
+            </div>
+        </div>
+
+        <!-- 2. Mobile Top SEO -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 text-slate-600 shadow-sm">
+            <h3 class="text-base font-bold text-slate-800 mb-2">How does the allowance work?</h3>
+            <ul class="list-disc pl-5 text-sm space-y-1">
+                <li>Up to 20 km: <strong>€0.30</strong> / km.</li>
+                <li>From the 21st km: <strong>€0.38</strong> / km.</li>
+                <li><strong>Maximum limit:</strong> €4,500 (does not apply when using your own car).</li>
+            </ul>
+        </div>
+
+        <!-- 3. Mobile Cards -->
+        <div class="space-y-3">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">You might also be interested in</h3>
+            
+            <div class="bg-white p-4 rounded-xl border border-slate-200 flex gap-3 items-center shadow-sm hover:border-[#004B87] hover:shadow-md transition cursor-pointer group">
+                <div class="text-xl bg-slate-50 p-2 rounded-md group-hover:bg-[#F0F5FA] transition grayscale group-hover:grayscale-0">💶</div>
+                <div>
+                    <h4 class="font-bold text-sm text-slate-800 group-hover:text-[#004B87] transition">Gross-Net Calculator</h4>
+                </div>
+            </div>
+            
+            <div class="bg-white p-4 rounded-xl border border-slate-200 flex gap-3 items-center shadow-sm hover:border-[#004B87] hover:shadow-md transition cursor-pointer group">
+                <div class="text-xl bg-slate-50 p-2 rounded-md group-hover:bg-[#F0F5FA] transition grayscale group-hover:grayscale-0">🏛️</div>
+                <div>
+                    <h4 class="font-bold text-sm text-slate-800 group-hover:text-[#004B87] transition">Tax Class Calculator</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Mobile Deep FAQ -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 text-slate-600 shadow-sm">
+            <h3 class="text-base font-bold text-slate-800 mb-4 border-b pb-2">Frequently Asked Questions (FAQ)</h3>
+            <div class="space-y-4 text-sm">
+                <div>
+                    <h4 class="font-bold text-slate-800">Is there a maximum amount?</h4>
+                    <p class="mt-1">Yes, max. €4,500/year, unless you use your own car.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-800">What about home office days?</h4>
+                    <p class="mt-1">The home office allowance applies here, not the commuter allowance.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- ========================================== -->
+    <!--            🖥️ DESKTOP VIEW SECTION         -->
+    <!-- ========================================== -->
+    <main class="hidden lg:grid max-w-6xl mx-auto px-4 py-8 grid-cols-3 gap-8">
+        
+        <!-- Left Column (Calculator & SEO) -->
+        <div class="col-span-2 space-y-6">
+            
+            <!-- Desktop Calculator -->
+            <div class="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] p-8 border border-slate-200">
+                <h2 class="text-2xl font-bold mb-2 text-slate-800">Commuter Allowance Calculator</h2>
+                <p class="text-slate-500 text-sm mb-6">Calculate your tax relief for the commute to work, taking into account the €4,500 maximum limit.</p>
+                
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Tax Year</label>
+                        <select id="year-desktop" class="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                            <option value="2026" selected>2026</option>
+                            <option value="2025">2025</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">One-way Distance (km)</label>
+                        <input id="distance-desktop" type="number" min="0" placeholder="e.g. 30" class="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Days (Own Car)</label>
+                            <input id="days-car-desktop" type="number" min="0" placeholder="e.g. 220" class="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Days (Public Transport)</label>
+                            <input id="days-public-desktop" type="number" min="0" placeholder="e.g. 0" class="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                        </div>
+                    </div>
+                    
+                    <button onclick="calculateDeduction('desktop')" class="w-full bg-[#004B87] text-white font-semibold py-3.5 px-4 rounded-md hover:bg-[#003865] mt-2 transition">
+                        Calculate Allowance
+                    </button>
+                </div>
+                
+                <div class="mt-8 p-6 bg-[#F0F5FA] rounded-md text-center border border-[#D9E6F2]">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-[#004B87] mb-1 opacity-80">Deductible Allowance</p>
+                    <p id="result-desktop" class="text-4xl font-bold text-[#004B87]">€0.00</p>
+                </div>
+            </div>
+
+            <!-- Desktop SEO & FAQ -->
+            <div class="bg-white rounded-xl p-8 border border-slate-200 text-slate-600 shadow-sm space-y-8">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">How does the distance allowance work?</h3>
+                    <ul class="list-disc pl-5 text-sm space-y-1.5">
+                        <li>For the first 20 kilometers: <strong>€0.30</strong> per kilometer.</li>
+                        <li>From the 21st kilometer: Increased rate of <strong>€0.38</strong> per kilometer.</li>
+                        <li><strong>Important:</strong> If you use public transport (bus, train, bicycle, etc.), the allowance is capped at <strong>€4,500 per year</strong>. This limit does not apply to trips made with your own car.</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">Frequently Asked Questions (FAQ)</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-bold text-slate-800">Does the allowance apply to the round trip?</h4>
+                            <p class="text-sm mt-1">No, the commuter allowance applies exclusively to the one-way distance.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">What happens on home office days?</h4>
+                            <p class="text-sm mt-1">No distance allowance can be claimed for home office days. You can use the home office allowance for this instead.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column (Sidebar Tools with Hover Restored) -->
+        <div class="col-start-3 space-y-4">
+            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider px-1">You might also be interested in</h3>
+            
+            <div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-[#004B87] hover:shadow-md transition cursor-pointer flex gap-4 items-start group">
+                <div class="text-2xl bg-slate-50 p-2 rounded-md group-hover:bg-[#F0F5FA] transition grayscale group-hover:grayscale-0">💶</div>
+                <div>
+                    <h4 class="font-bold text-base text-slate-800 group-hover:text-[#004B87] transition">Gross-Net Calculator</h4>
+                    <p class="text-xs text-slate-500 mt-1">Calculate income after taxes.</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-[#004B87] hover:shadow-md transition cursor-pointer flex gap-4 items-start group">
+                <div class="text-2xl bg-slate-50 p-2 rounded-md group-hover:bg-[#F0F5FA] transition grayscale group-hover:grayscale-0">🏛️</div>
+                <div>
+                    <h4 class="font-bold text-base text-slate-800 group-hover:text-[#004B87] transition">Tax Class Calculator</h4>
+                    <p class="text-xs text-slate-500 mt-1">Find the optimal tax class.</p>
+                </div>
+            </div>
+            
+            <div class="bg-white p-5 rounded-xl border border-slate-200 hover:border-[#004B87] hover:shadow-md transition cursor-pointer flex gap-4 items-start group">
+                <div class="text-2xl bg-slate-50 p-2 rounded-md group-hover:bg-[#F0F5FA] transition grayscale group-hover:grayscale-0">👶</div>
+                <div>
+                    <h4 class="font-bold text-base text-slate-800 group-hover:text-[#004B87] transition">Child Benefit Calculator</h4>
+                    <p class="text-xs text-slate-500 mt-1">Check entitlement to child benefit.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!--            JAVASCRIPT LOGIC                -->
+    <!-- ========================================== -->
+    <script>
+        function calculateDeduction(viewMode) {
+            const distance = parseFloat(document.getElementById(`distance-${viewMode}`).value) || 0;
+            const daysCar = parseFloat(document.getElementById(`days-car-${viewMode}`).value) || 0;
+            const daysPublic = parseFloat(document.getElementById(`days-public-${viewMode}`).value) || 0;
+            
+            let dailyDeduction = 0;
+            if (distance <= 20) {
+                dailyDeduction = distance * 0.30;
+            } else {
+                dailyDeduction = (20 * 0.30) + ((distance - 20) * 0.38);
+            }
+            
+            let deductionCar = dailyDeduction * daysCar;
+            
+            let deductionPublic = dailyDeduction * daysPublic;
+            if (deductionPublic > 4500) {
+                deductionPublic = 4500;
+            }
+            
+            const totalDeduction = deductionCar + deductionPublic;
+            
+            // Using de-DE locale to keep the German currency format (e.g. 1.200,50 €)
+            document.getElementById(`result-${viewMode}`).innerText = totalDeduction.toLocaleString('de-DE', {
+                style: 'currency',
+                currency: 'EUR'
+            });
+        }
+    </script>
+</body>
+</html>
