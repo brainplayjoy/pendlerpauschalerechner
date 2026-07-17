@@ -310,6 +310,24 @@
         </div>
     </main>
 
+    </main>
+
+    <!-- Ei jaygay Footer automatic load hobe -->
+    <div id="footer-container"></div>
+
+    <!-- Javascript to load the footer -->
+    <script>
+        fetch('/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+
+    <!-- Apnar purono Javascript gulo ekhane thakbe -->
+    <script>
+        function calculate...
+
     <!-- ========================================== -->
     <!--            JAVASCRIPT LOGIC                -->
     <!-- ========================================== -->
