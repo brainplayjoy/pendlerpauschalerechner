@@ -57,20 +57,25 @@
         <!-- 1. Mobile Calculator -->
         <div class="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] p-6 border border-slate-200">
             <h2 class="text-xl font-bold mb-2 text-slate-800">Homeoffice Pauschale Rechner</h2>
-            <p class="text-slate-500 text-xs mb-5">Berechnen Sie Ihre Steuerentlastung für Heimarbeit (max. 1.260 €).</p>
+            <p class="text-slate-500 text-xs mb-5">Berechnen Sie Ihre Steuerentlastung für Heimarbeit.</p>
             
             <div class="space-y-4">
                 <div>
                     <!-- Label font size set to 14px and font weight to 700 (bold) -->
                     <label class="block text-[14px] font-bold text-slate-700 mb-2 leading-relaxed">Steuerjahr</label>
-                    <select id="year-mobile" class="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                    <select id="year-mobile" onchange="calculateHomeoffice('mobile')" class="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
                         <option value="2026" selected>2026</option>
                         <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-[14px] font-bold text-slate-700 mb-2 leading-relaxed">Arbeitstage im Homeoffice</label>
-                    <input id="days-mobile" type="number" min="0" max="365" placeholder="z.B. 150" class="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                    <input id="days-mobile" oninput="calculateHomeoffice('mobile')" type="number" min="0" max="365" placeholder="z.B. 150" class="w-full px-4 py-2.5 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
                     <p id="warning-mobile" class="text-xs text-red-500 mt-2 font-semibold hidden">Hinweis: Die Pauschale ist auf max. 210 Tage begrenzt.</p>
                 </div>
                 
@@ -94,18 +99,45 @@
             <h3 class="text-base font-bold text-slate-800 mb-3">Wie funktioniert die Pauschale?</h3>
             
             <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1 mb-4">
-                <li>Sie erhalten pauschal <strong>6,00 €</strong> für jeden vollen Tag im Homeoffice.</li>
-                <li>Die gesetzliche Höchstgrenze liegt bei <strong>210 Tagen</strong> im Jahr.</li>
+                <li>Ab 2023 erhalten Sie pauschal <strong>6,00 €</strong> für jeden vollen Tag im Homeoffice.</li>
+                <li>Die gesetzliche Höchstgrenze liegt aktuell bei <strong>210 Tagen</strong> im Jahr.</li>
                 <li>Der maximale Steuerabzug beträgt somit <strong>1.260 € jährlich</strong>.</li>
                 <li><strong>Wichtig:</strong> Sie benötigen kein separates Arbeitszimmer. Ein Küchentisch oder das Wohnzimmer genügen völlig.</li>
             </ul>
+
+            <h4 class="text-sm font-bold text-slate-800 mb-2 mt-5">Historische Entwicklung der Pauschale</h4>
+            <div class="overflow-x-auto mb-2">
+                <table class="w-full text-xs text-left text-slate-600 border-collapse">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                        <tr>
+                            <th class="border border-slate-200 px-3 py-2">Jahr</th>
+                            <th class="border border-slate-200 px-3 py-2">Pro Tag</th>
+                            <th class="border border-slate-200 px-3 py-2">Max. Tage</th>
+                            <th class="border border-slate-200 px-3 py-2">Max. Abzug</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-slate-200 px-3 py-2">2023 - 2026</td>
+                            <td class="border border-slate-200 px-3 py-2">6,00 €</td>
+                            <td class="border border-slate-200 px-3 py-2">210</td>
+                            <td class="border border-slate-200 px-3 py-2">1.260 €</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-slate-200 px-3 py-2">2020 - 2022</td>
+                            <td class="border border-slate-200 px-3 py-2">5,00 €</td>
+                            <td class="border border-slate-200 px-3 py-2">120</td>
+                            <td class="border border-slate-200 px-3 py-2">600 €</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- 3. Mobile Cards -->
         <div class="space-y-3">
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">Das könnte Sie auch interessieren</h3>
             
-            <!-- ADDED 2ND LINE HERE FOR MOBILE CARD -->
             <a href="/" class="bg-[#fff5cc] p-4 rounded-xl border border-[#ffe066] flex gap-3 items-center shadow-sm hover:border-[#004B87] hover:shadow-md transition cursor-pointer group">
                 <div class="text-xl bg-white p-2 rounded-md transition grayscale group-hover:grayscale-0">🚗</div>
                 <div>
@@ -117,19 +149,20 @@
 
         <!-- 4. Mobile SEO Searchable Content Section -->
         <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-            <h3 class="text-base font-bold text-slate-800 mb-3">Einkommensteuererklärung optimieren mit der Homeoffice-Pauschale</h3>
+            <h3 class="text-base font-bold text-slate-800 mb-3">Einkommensteuererklärung optimieren mit der Homeoffice Pauschale</h3>
             <p class="text-sm text-slate-600 mb-5 leading-relaxed">
-                Bei der Abgabe Ihrer jährlichen <strong>Einkommensteuererklärung</strong> in Deutschland ist es wichtig, die Homeoffice-Pauschale (Tagespauschale) richtig anzusetzen, um Ihr zu versteuerndes Einkommen zu reduzieren. Dieser Abzug ist ein wesentlicher Bestandteil Ihrer Werbungskosten und entlastet alle Arbeitnehmer, die zeitweise oder vollständig von zu Hause arbeiten.
+                Bei der Abgabe Ihrer jährlichen <strong>Einkommensteuererklärung</strong> in Deutschland ist es wichtig, die Homeoffice Pauschale (Tagespauschale) richtig anzusetzen, um Ihr zu versteuerndes Einkommen zu reduzieren. Dieser Abzug ist ein wesentlicher Bestandteil Ihrer Werbungskosten und entlastet alle Arbeitnehmer, die zeitweise oder vollständig von zu Hause arbeiten.
             </p>
+            
+            <!-- IMPORTANT NOTE INCLUDED HERE -->
+            <div class="mb-6 bg-[#F0F5FA] border-l-4 border-[#004B87] p-4 rounded-r-md">
+                <h4 class="text-sm font-bold text-slate-800 mb-1">Wichtiger Hinweis zur Homeoffice Pauschale</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">Die Homeoffice Pauschale wird nicht direkt vom Arbeitgeber ausgezahlt. Es handelt sich um einen Steuerabzug, der in der deutschen Einkommensteuererklärung im Rahmen der Werbungskosten geltend gemacht wird. Unser Rechner ermittelt den absetzbaren Betrag, nicht Ihre tatsächliche Steuererstattung. Der tatsächliche steuerliche Vorteil hängt von Ihrer individuellen Steuersituation ab.</p>
+            </div>
             
             <h4 class="text-sm font-bold text-slate-800 mb-2">Trending Keywords & Suchbegriffe</h4>
             <p class="text-sm text-slate-600 mb-5 leading-relaxed italic">
                 Homeoffice Pauschale 2026 berechnen, Anlage N Werbungskosten, Tagespauschale Steuererklärung, Homeoffice Tage eintragen Finanzamt, Maximalbetrag 1260 Euro.
-            </p>
-            
-            <h4 class="text-sm font-bold text-slate-800 mb-2">Vorteile dieses Tools</h4>
-            <p class="text-sm text-slate-600 mb-2 leading-relaxed">
-                Unser Rechner ist <strong>100% akkurat</strong> und berücksichtigt automatisch die gesetzliche Kappungsgrenze von 210 Tagen. So vermeiden Sie Fehler bei der Eingabe in Ihre Steuer-Software oder beim Finanzamt.
             </p>
         </div>
 
@@ -139,7 +172,7 @@
             <div class="space-y-4 text-sm text-slate-600">
                 <div>
                     <h4 class="font-bold text-slate-800">Gibt es einen Höchstbetrag?</h4>
-                    <p class="mt-1">Ja, die Pauschale ist auf 210 Tage begrenzt. Da es 6 Euro pro Tag gibt, liegt der absolute Höchstbetrag bei 1.260 Euro im Jahr.</p>
+                    <p class="mt-1">Ja, die Pauschale ist aktuell auf 210 Tage begrenzt. Da es 6 Euro pro Tag gibt, liegt der absolute Höchstbetrag bei 1.260 Euro im Jahr (für 2020 bis 2022 lag dieser bei max. 600 Euro).</p>
                 </div>
                 <div>
                     <h4 class="font-bold text-slate-800">Brauche ich ein abgeschlossenes Arbeitszimmer?</h4>
@@ -147,7 +180,7 @@
                 </div>
                 <div>
                     <h4 class="font-bold text-slate-800">Kann ich Pendeln und Homeoffice kombinieren?</h4>
-                    <p class="mt-1">Ja, grundsätzlich schon, aber <strong>nicht für denselben Arbeitstag</strong>. Entweder Sie setzen für einen Tag die Fahrtkosten (Pendlerpauschale) ODER die Homeoffice-Pauschale an.</p>
+                    <p class="mt-1">Ja, grundsätzlich schon, aber <strong>nicht für denselben Arbeitstag</strong>. Entweder Sie setzen für einen Tag die Fahrtkosten (Pendlerpauschale) ODER die Homeoffice Pauschale an.</p>
                 </div>
             </div>
         </div>
@@ -165,21 +198,26 @@
             <!-- Desktop Calculator -->
             <div class="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] p-8 border border-slate-200">
                 <h2 class="text-2xl font-bold mb-2 text-slate-800">Homeoffice Pauschale Rechner</h2>
-                <p class="text-slate-500 text-sm mb-6">Berechnen Sie Ihre Steuerentlastung für Heimarbeit unter Berücksichtigung der 1.260 € Höchstgrenze.</p>
+                <p class="text-slate-500 text-sm mb-6">Berechnen Sie Ihre Steuerentlastung für Heimarbeit anhand der geltenden Jahresregelungen.</p>
                 
                 <div class="space-y-5">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <!-- Label font size set to 14px and font weight to 700 (bold) -->
                             <label class="block text-[14px] font-bold text-slate-700 mb-2 leading-relaxed">Steuerjahr</label>
-                            <select id="year-desktop" class="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                            <select id="year-desktop" onchange="calculateHomeoffice('desktop')" class="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
                                 <option value="2026" selected>2026</option>
                                 <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-[14px] font-bold text-slate-700 mb-2 leading-relaxed">Arbeitstage im Homeoffice</label>
-                            <input id="days-desktop" type="number" min="0" max="365" placeholder="z.B. 150" class="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
+                            <input id="days-desktop" oninput="calculateHomeoffice('desktop')" type="number" min="0" max="365" placeholder="z.B. 150" class="w-full px-4 py-3 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#004B87] bg-slate-50">
                         </div>
                     </div>
                     
@@ -203,14 +241,42 @@
             <!-- Desktop SEO & FAQ -->
             <div class="bg-white rounded-xl p-8 border border-slate-200 shadow-sm space-y-8">
                 <div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-4">Wie funktioniert die Homeoffice-Pauschale?</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Wie funktioniert die Homeoffice Pauschale?</h3>
                     
                     <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1.5 mb-6">
-                        <li>Sie können <strong>6,00 € pro Tag</strong> für das Arbeiten von zu Hause steuerlich als Werbungskosten geltend machen.</li>
-                        <li>Die Pauschale ist auf maximal <strong>210 Tage</strong> im Jahr begrenzt.</li>
+                        <li>Sie können <strong>6,00 € pro Tag</strong> (für die Jahre 2023 bis 2026) für das Arbeiten von zu Hause steuerlich als Werbungskosten geltend machen.</li>
+                        <li>Die Pauschale ist aktuell auf maximal <strong>210 Tage</strong> im Jahr begrenzt.</li>
                         <li>Daraus ergibt sich ein maximaler Abzugsbetrag von <strong>1.260 € pro Jahr</strong>.</li>
                         <li><strong>Wichtig:</strong> Sie benötigen für diese Pauschale kein gesetzlich definiertes, separates Arbeitszimmer.</li>
                     </ul>
+
+                    <h4 class="text-base font-bold text-slate-800 mb-3 mt-6">Historische Entwicklung der Pauschale</h4>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="w-full text-sm text-left text-slate-600 border-collapse">
+                            <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                                <tr>
+                                    <th class="border border-slate-200 px-4 py-3">Steuerjahr</th>
+                                    <th class="border border-slate-200 px-4 py-3">Tagespauschale</th>
+                                    <th class="border border-slate-200 px-4 py-3">Max. anrechenbare Tage</th>
+                                    <th class="border border-slate-200 px-4 py-3">Maximaler Steuerabzug</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-slate-200 px-4 py-3 font-semibold">2023 - 2026</td>
+                                    <td class="border border-slate-200 px-4 py-3">6,00 €</td>
+                                    <td class="border border-slate-200 px-4 py-3">210 Tage</td>
+                                    <td class="border border-slate-200 px-4 py-3 font-semibold text-[#004B87]">1.260 €</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-200 px-4 py-3">2020 - 2022</td>
+                                    <td class="border border-slate-200 px-4 py-3">5,00 €</td>
+                                    <td class="border border-slate-200 px-4 py-3">120 Tage</td>
+                                    <td class="border border-slate-200 px-4 py-3 text-slate-500">600 €</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 
                 <!-- Desktop Content Component with Targeted Search Terms -->
@@ -219,10 +285,16 @@
                     <p class="text-sm text-slate-600 leading-relaxed mb-6">
                         Bei der Abgabe Ihrer jährlichen <strong>Einkommensteuererklärung</strong> ist es wichtig, jeden im Homeoffice geleisteten Arbeitstag in der Anlage N anzugeben, um Ihr zu versteuerndes Einkommen zu reduzieren. Dieser Abzug senkt Ihre Steuerlast effektiv, sobald Ihre gesamten Werbungskosten den Arbeitnehmer-Pauschbetrag übersteigen.
                     </p>
+
+                    <!-- IMPORTANT NOTE INCLUDED HERE -->
+                    <div class="mb-6 bg-[#F0F5FA] border-l-4 border-[#004B87] p-5 rounded-r-md">
+                        <h4 class="text-base font-bold text-slate-800 mb-2">Wichtiger Hinweis zur Homeoffice Pauschale</h4>
+                        <p class="text-sm text-slate-700 leading-relaxed">Die Homeoffice Pauschale wird nicht vom Arbeitgeber ausgezahlt. Es handelt sich um einen Steuerabzug, der in der deutschen Einkommensteuererklärung geltend gemacht wird. Er fällt unter den allgemeinen Rahmen der Arbeitnehmerausgaben (Werbungskosten). Daher berechnet dieses Tool den absetzbaren Betrag und nicht die tatsächliche Steuererstattung. Der tatsächliche steuerliche Vorteil hängt von der individuellen Steuersituation des Steuerzahlers ab.</p>
+                    </div>
                     
                     <h4 class="text-base font-bold text-slate-800 mb-2 mt-6">Was macht dieses Tool besonders?</h4>
                     <p class="text-sm text-slate-600 leading-relaxed mb-6">
-                        Unser Rechner ist <strong>100% akkurat</strong> und berücksichtigt automatisch die gesetzliche Kappungsgrenze von 210 Tagen. Das bedeutet, das Tool stoppt bei exakt 1.260 €, selbst wenn Sie versehentlich 250 Tage eingeben. So vermeiden Sie unrealistische Werte.
+                        Unser Rechner ist <strong>100% akkurat</strong> und berücksichtigt automatisch die jeweilige gesetzliche Kappungsgrenze der ausgewählten Jahre. Das bedeutet, das Tool stoppt bei exakt 1.260 € (bzw. 600 € für die Jahre 2020-2022), selbst wenn Sie versehentlich 250 Tage eingeben. So vermeiden Sie unrealistische Werte.
                     </p>
                 </div>
 
@@ -232,10 +304,10 @@
                     <div class="space-y-5 text-slate-600">
                         <div>
                             <h4 class="font-bold text-slate-800">Gilt die Pauschale auch für das Arbeiten am Küchentisch?</h4>
-                            <p class="text-sm mt-1 leading-relaxed">Ja! Im Gegensatz zum häuslichen Arbeitszimmer ist die Homeoffice-Pauschale völlig unabhängig von den räumlichen Gegebenheiten in Ihrer Wohnung.</p>
+                            <p class="text-sm mt-1 leading-relaxed">Ja! Im Gegensatz zum häuslichen Arbeitszimmer ist die Homeoffice Pauschale völlig unabhängig von den räumlichen Gegebenheiten in Ihrer Wohnung.</p>
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-800">Kann ich Homeoffice-Pauschale und Pendlerpauschale kombinieren?</h4>
+                            <h4 class="font-bold text-slate-800">Kann ich Homeoffice Pauschale und Pendlerpauschale kombinieren?</h4>
                             <p class="text-sm mt-1 leading-relaxed">Ja, aber <strong>nicht am selben Tag</strong>. Wenn Sie an einem Tag sowohl im Homeoffice arbeiten als auch ins Büro fahren, dürfen Sie nur die Entfernungspauschale für die Fahrt ansetzen.</p>
                         </div>
                         <div>
@@ -251,7 +323,6 @@
         <div class="col-start-3 space-y-4">
             <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider px-1">Das könnte Sie auch interessieren</h3>
             
-            <!-- ADDED 2ND LINE HERE FOR DESKTOP CARD -->
             <a href="/" class="bg-[#fff5cc] p-5 rounded-xl border border-[#ffe066] hover:border-[#004B87] hover:shadow-md transition cursor-pointer flex gap-4 items-start group">
                 <div class="text-2xl bg-white p-2 rounded-md transition grayscale group-hover:grayscale-0">🚗</div>
                 <div>
@@ -268,25 +339,45 @@
     <script>
         function calculateHomeoffice(viewMode) {
             // Get inputs based on the active view
+            const yearSelect = document.getElementById(`year-${viewMode}`);
+            const selectedYear = parseInt(yearSelect.value);
+            
             const daysInput = document.getElementById(`days-${viewMode}`).value;
             let days = parseInt(daysInput) || 0;
+            
             const warningEl = document.getElementById(`warning-${viewMode}`);
+            const dailyRateEl = document.getElementById(`daily-result-${viewMode}`);
             
             // Prevent negative days
             if (days < 0) days = 0;
             
-            // Show warning if days exceed max limit (210)
-            if (days > 210) {
+            // Determine max days and daily rate based on selected year
+            let maxDays = 210;
+            let dailyRate = 6;
+            
+            if (selectedYear >= 2020 && selectedYear <= 2022) {
+                maxDays = 120;
+                dailyRate = 5;
+            }
+            
+            // Update the UI text for daily rate automatically
+            dailyRateEl.innerText = dailyRate.toLocaleString('de-DE', { minimumFractionDigits: 2 }) + ' € / Tag';
+            
+            // Update warning text based on year
+            warningEl.innerText = `Hinweis: Die Pauschale ist für ${selectedYear} auf max. ${maxDays} Tage begrenzt.`;
+            
+            // Show warning if days exceed max limit
+            if (days > maxDays) {
                 warningEl.classList.remove('hidden');
             } else {
                 warningEl.classList.add('hidden');
             }
             
-            // Cap the days at 210 for calculation
-            const eligibleDays = Math.min(days, 210);
+            // Cap the days for calculation
+            const eligibleDays = Math.min(days, maxDays);
             
-            // Fixed rate 6 EUR per day
-            const totalDeduction = eligibleDays * 6;
+            // Total calculation
+            const totalDeduction = eligibleDays * dailyRate;
             
             // Format and display Total Output
             document.getElementById(`result-${viewMode}`).innerText = totalDeduction.toLocaleString('de-DE', {
@@ -294,6 +385,12 @@
                 currency: 'EUR'
             });
         }
+        
+        // Initialize the daily rate display on page load for both views
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateHomeoffice('desktop');
+            calculateHomeoffice('mobile');
+        });
     </script>
 </body>
 </html>
