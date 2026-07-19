@@ -44,9 +44,10 @@
     <!-- ========================================== -->
     <!--            HEADER SECTION (Dynamic)        -->
     <!-- ========================================== -->
-    <div id="header-container"></div>
+ 
+
+    <div id="header-container" class="min-h-[68px] md:min-h-[74px] sticky top-0 z-50 w-full bg-white"></div>
     <script>
-        // Fetches the common header from the root directory
         fetch('/header.html')
             .then(response => response.text())
             .then(data => {
