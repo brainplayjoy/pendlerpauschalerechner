@@ -43,7 +43,9 @@
     <!-- ========================================== -->
     <!--            HEADER SECTION (Dynamic)        -->
     <!-- ========================================== -->
-    <div id="header-container"></div>
+ 
+    <!-- min-h-[74px] ব্যবহার করা হয়েছে যাতে লোড হওয়ার সময় পেজ না কাঁপে -->
+    <div id="header-container" class="min-h-[68px] md:min-h-[74px] sticky top-0 z-50 w-full bg-white"></div>
     <script>
         fetch('/header.html')
             .then(response => response.text())
