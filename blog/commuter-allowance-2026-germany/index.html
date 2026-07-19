@@ -15,7 +15,7 @@
 <!-- এই পেজ বা পোস্টের জন্য নির্দিষ্ট ছবি -->
 <meta property="og:image" content="https://pendlerpauschalerechner.de/images/pendlerpauschale-rechner.webp" />
 <meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="640" /> 
+<meta property="og:image:height" content="640" />
 
     <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
     
@@ -68,7 +68,7 @@
             width: 100%;
         }
         
-        /* Tool card styling */
+        /* Tool card styling (as per original) */
         .tool-card {
             background: #f0f7ff;
             border-left: 4px solid #004B87;
@@ -100,6 +100,45 @@
             transform: translateX(4px);
         }
         
+        /* Special bottom card - prominent CTA */
+        .special-bottom-card {
+            background: linear-gradient(135deg, #004B87 0%, #003366 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            border-radius: 1.25rem;
+            text-align: center;
+            margin-top: 2.5rem;
+            box-shadow: 0 8px 30px rgba(0,75,135,0.3);
+        }
+        .special-bottom-card h3 {
+            color: white !important;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+        .special-bottom-card p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            margin-bottom: 1.25rem;
+        }
+        .special-bottom-card .btn {
+            display: inline-block;
+            background: #eab308;
+            color: #000;
+            font-weight: 700;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(234,179,8,0.4);
+        }
+        .special-bottom-card .btn:hover {
+            background: #facc15;
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(234,179,8,0.5);
+        }
+        
         @media (max-width: 640px) {
             .mobile-padding-fix {
                 padding-left: 0.75rem !important;
@@ -125,6 +164,20 @@
             .tool-card {
                 padding: 0.75rem 1rem !important;
                 margin: 1.25rem 0 !important;
+            }
+            
+            .special-bottom-card {
+                padding: 1.5rem 1rem !important;
+            }
+            .special-bottom-card h3 {
+                font-size: 1.25rem !important;
+            }
+            .special-bottom-card p {
+                font-size: 1rem !important;
+            }
+            .special-bottom-card .btn {
+                padding: 0.6rem 1.5rem !important;
+                font-size: 1rem !important;
             }
         }
     </style>
@@ -168,7 +221,7 @@
                 German Commuter Allowance 2026: The New Flat Rate Guide
             </h1>
             
-            <!-- Featured Asset Image Node -->
+            <!-- Featured Asset Image Node (First Image) -->
             <div class="mb-8 overflow-hidden rounded-xl bg-slate-100">
                 <img src="../images/pendlerpauschale-rechner.webp" alt="German commuter allowance 2026 guide for expats" class="w-full h-auto object-cover max-h-[480px] mobile-image-fix">
             </div> 
@@ -316,6 +369,20 @@
                     <li>✅ File your tax return on time to get your refund</li>
                 </ul>
                 <p>Don't leave money on the table! Use our free calculator to estimate your commuter allowance and start planning your tax return today.</p>
+                
+                <!-- ===== ADDED SECOND IMAGE ===== -->
+                <div class="mt-8 overflow-hidden rounded-xl bg-slate-100">
+                    <img src="../images/pendlerpauschale-calculator.webp" alt="Calculate your commuter allowance with our free tool" class="w-full h-auto object-cover max-h-[400px] mobile-image-fix" loading="lazy">
+                </div>
+                
+                <!-- ===== ADDED SPECIAL BOTTOM CARD ===== -->
+                <div class="special-bottom-card">
+                    <h3>🚀 Ready to claim your tax refund?</h3>
+                    <p>Use our free, instant calculator to find out exactly how much you can save with the new 2026 commuter allowance.</p>
+                    <a href="https://pendlerpauschalerechner.de/" class="btn" target="_blank" rel="noopener">
+                        Calculate now → 
+                    </a>
+                </div>
                 
                 <p class="pt-2 text-sm text-slate-500 border-t border-slate-200 mt-8">Published: 19 July 2026 · Updated for the 2026 tax year</p>
             </div>
