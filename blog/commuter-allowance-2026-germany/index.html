@@ -52,17 +52,13 @@
             overflow-x: hidden;
             width: 100%;
         }
+        /* হোভার অ্যানিমেশন ছাড়া সাধারণ স্টাইল */
         .tool-card {
             background: #f0f7ff;
             border-left: 4px solid #004B87;
             padding: 1rem 1.25rem;
             border-radius: 0.75rem;
             margin: 1.5rem 0;
-            transition: all 0.2s ease;
-        }
-        .tool-card:hover {
-            background: #e6f0fa;
-            transform: translateX(4px);
         }
         .tool-card a {
             color: #004B87;
@@ -74,13 +70,6 @@
         }
         .tool-card a:hover {
             text-decoration: underline;
-        }
-        .tool-card .arrow {
-            display: inline-block;
-            transition: transform 0.2s ease;
-        }
-        .tool-card a:hover .arrow {
-            transform: translateX(4px);
         }
         .special-bottom-card {
             background: linear-gradient(135deg, #004B87 0%, #003366 100%);
@@ -212,15 +201,12 @@
                 
                 <p>The year 2026 has brought a major simplification: the flat rate is now a uniform <strong>€0.38 per kilometre</strong> for the entire distance between home and work – no more complicated tiered calculations. This comprehensive guide breaks down exactly how the new system works, how it benefits you, and how you can claim your money back.</p>
 
-                <!-- Injection Box 1 Replaced -->
-                <div class="bg-blue-50/70 rounded-xl p-5 border-l-4 border-[#004B87] my-6 transition hover:bg-blue-50">
-                    <p class="font-medium text-slate-800 text-sm md:text-base">
-                        💡 <strong>Want to see how much you save?</strong> Try our 
-                        <a href="https://pendlerpauschalerechner.de/en/index.html" class="text-[#004B87] font-bold underline hover:text-blue-800 transition">
-                            Free 2026 Commuter Allowance Calculator
-                        </a> 
-                        to get your exact tax deduction in seconds.
-                    </p>
+                <!-- Injection Box 1 -->
+                <div class="tool-card">
+                    <a href="https://pendlerpauschalerechner.de/en/index.html">
+                        <span>📊 Calculate your exact commuter allowance now</span>
+                        <span class="arrow">→</span>
+                    </a>
                 </div>
 
                 <h2 class="text-2xl md:text-3xl pt-4 break-words">What is the Commuter Allowance (Pendlerpauschale)?</h2>
@@ -228,15 +214,12 @@
                 <p>It does not matter whether you take the train, drive a car, ride a bicycle, or simply walk to work. If you commute, you qualify for this tax relief.</p>
                 <p>The allowance is not a direct payment from the government, but rather a tax deduction. This means it reduces your taxable income, which in turn reduces the amount of income tax you owe. For many employees, this can result in a tax refund of several hundred Euros each year.</p>
 
-                <!-- Injection Box 2 Replaced -->
-                <div class="bg-blue-50/70 rounded-xl p-5 border-l-4 border-[#004B87] my-6 transition hover:bg-blue-50">
-                    <p class="font-medium text-slate-800 text-sm md:text-base">
-                        🚗 <strong>Do you drive to work?</strong> Use our 
-                        <a href="https://pendlerpauschalerechner.de/" class="text-[#004B87] font-bold underline hover:text-blue-800 transition">
-                            Tax Calculator for Expats
-                        </a> 
-                        to calculate your uncapped travel deductions easily.
-                    </p>
+                <!-- Injection Box 2 -->
+                <div class="tool-card">
+                    <a href="https://pendlerpauschalerechner.de/">
+                        <span>❓ Frequently asked questions about the Pendlerpauschale</span>
+                        <span class="arrow">→</span>
+                    </a>
                 </div>
 
                 <h2 class="text-2xl md:text-3xl pt-4 break-words">The 2026 Flat Rate: €0.38 per Kilometre for All Distances</h2>
@@ -271,16 +254,26 @@
                 <p>Even if you work part-time or are in a training program (Ausbildung), you can still claim the allowance. The only exception is if your employer fully reimburses your travel costs — in that case, you cannot claim the deduction as well.</p>
                 <p>For expats, it's worth noting that you qualify from your first day of employment in Germany, regardless of your nationality or visa status.</p>
 
-                <!-- Injection Box 3 Added Before H2 Real-World Example -->
-                <div class="bg-blue-50/70 rounded-xl p-5 border-l-4 border-[#004B87] my-6 transition hover:bg-blue-50">
-                    <p class="font-medium text-slate-800 text-sm md:text-base">
-                        🏠 <strong>Working remotely?</strong> Try our 
-                        <a href="https://pendlerpauschalerechner.de/homeoffice-allowance-calculator/" class="text-[#004B87] font-bold underline hover:text-blue-800 transition">
-                            Home Office Allowance Calculator
-                        </a> 
-                        to calculate your remote days deductions.
-                    </p>
+                <!-- New H2 Section 1 added -->
+                <h2 class="text-2xl md:text-3xl pt-4 break-words">How to Calculate Your Total Deduction</h2>
+                <p>The mathematical formula for the 2026 tax year is very straightforward:</p>
+                <div class="bg-slate-100 p-4 rounded-xl font-mono text-center text-sm md:text-base border border-slate-200 my-4 text-slate-900 font-bold">
+                    One-Way Distance (km) × €0.38 × Number of Working Days = Total Tax Deduction
                 </div>
+                <p>For example, if you commute 25 km to your office for 220 days, your calculation is: 25 × €0.38 × 220 = €2,090. Since this is below the €4,500 cap, you can deduct the full amount.</p>
+
+                <!-- Injection Box 3 -->
+                <div class="tool-card">
+                    <a href="https://pendlerpauschalerechner.de/homeoffice-allowance-calculator/">
+                        <span>🏠 Homeoffice Allowance Calculator 2026</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+
+                <!-- New H2 Section 2 added -->
+                <h2 class="text-2xl md:text-3xl pt-4 break-words">What About Working from Home (Home Office)?</h2>
+                <p>If you work from home, you cannot claim the commuter allowance for those specific days because you did not travel. Instead, you can claim the Home Office Allowance (Homeoffice-Pauschale).</p>
+                <p>For every day you work entirely from home, you can claim a flat rate of €6.00, up to a maximum limit of €1,260 per year (which equals 210 working days).</p>
 
                 <h2 class="text-2xl md:text-3xl pt-4 break-words">Real-World Example: How Much Can You Save?</h2>
                 <p>Let's look at a practical example to understand the real impact of the new 2026 flat rate.</p>
@@ -324,7 +317,7 @@
                     </ul>
                 </div>
 
-                <!-- CTA Card No. 4 Replaced -->
+                <!-- CTA Card No. 4 -->
                 <div class="mt-12 bg-gradient-to-br from-slate-50 to-blue-50/50 border-2 border-dashed border-[#4299e1]/40 rounded-2xl p-6 text-center">
                     <h3 class="text-xl md:text-2xl mb-2">Ready to Maximize Your Tax Return?</h3>
                     <p class="text-slate-600 mb-6 text-sm md:text-base">Use our free tools to instantly calculate your deductions under the new 2026 rules.</p>
