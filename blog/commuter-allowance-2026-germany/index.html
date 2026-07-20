@@ -352,26 +352,58 @@ h3 {
     </script>
 
     <!-- Footer (Standard Site Footer)[cite: 1] -->
-    <footer class="bg-white border-t border-slate-200 mt-16 py-8 container-fix">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6 mobile-padding-fix">
-            <div class="text-center md:text-left">
-                <p class="text-[15px] font-bold text-[#004B87] mb-1 tracking-tight" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-                    Pendlerpauschale Rechner
-                </p>
-                <p class="text-xs text-slate-500">
-                    &copy; 2026 Alle Rechte vorbehalten.
-                </p>
-            </div>
-            <nav>
-                <ul class="flex flex-wrap justify-center gap-5 md:gap-8 text-sm text-slate-600 font-medium">
-                    <li><a href="/" class="hover:text-[#004B87] transition-colors duration-200">Startseite</a></li>
-                    <li><a href="/kontakt.html" class="hover:text-[#004B87] transition-colors duration-200">Kontakt</a></li>
-                    <li><a href="/datenschutz.html" class="hover:text-[#004B87] transition-colors duration-200">Datenschutz</a></li>
-                    <li><a href="/impressum.html" class="hover:text-[#004B87] transition-colors duration-200">Impressum</a></li>
-                </ul>
-            </nav>
+    <!-- footer.html er bhitor -->
+<footer class="site-global-footer bg-white border-t border-slate-200 mt-16 py-8">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="text-center md:text-left">
+            <p class="site-footer-title mb-1 tracking-tight">
+                Pendlerpauschale Rechner
+            </p>
+            <p class="site-footer-copy">
+                &copy; 2026 Alle Rechte vorbehalten.
+            </p>
         </div>
-    </footer>
+        <nav>
+            <ul class="site-footer-nav flex flex-wrap justify-center gap-5 md:gap-8 font-medium">
+                <li><a href="/" class="hover:text-[#004B87] transition-colors duration-200">Startseite</a></li>
+                <li><a href="/kontakt.html" class="hover:text-[#004B87] transition-colors duration-200">Kontakt</a></li>
+                <li><a href="/datenschutz.html" class="hover:text-[#004B87] transition-colors duration-200">Datenschutz</a></li>
+                <li><a href="/impressum.html" class="hover:text-[#004B87] transition-colors duration-200">Impressum</a></li>
+            </ul>
+        </nav>
+    </div>
+</footer>
+
+<style>
+    /* এই স্টাইলগুলো শুধুমাত্র ফুটারের জন্যই কাজ করবে, অন্য কোনো টেক্সট বা বডি স্টাইল একে পরিবর্তন করতে পারবে না */
+    .site-global-footer, 
+    .site-global-footer p, 
+    .site-global-footer span, 
+    .site-global-footer a, 
+    .site-global-footer li {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    }
+    
+    .site-footer-title {
+        font-size: 15px !important;
+        line-height: 1.4 !important;
+        font-weight: 700 !important;
+        color: #004B87 !important;
+    }
+
+    .site-footer-copy {
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        color: #64748b !important;
+    }
+
+    .site-footer-nav a, 
+    .site-footer-nav li {
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        color: #475569 !important;
+    }
+</style>
 
 </body>
 </html>
