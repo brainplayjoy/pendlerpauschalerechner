@@ -21,9 +21,8 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-        <span class="font-bold text-sm md:text-base text-[#004B87]" style="color: #004B87 !important;">Pendlerpauschale Rechner</span>
         body { 
             font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; 
             overflow-x: hidden;
@@ -39,7 +38,6 @@
             body { line-height: 1.8; }
             p, li, .text-base { line-height: 1.8 !important; }
             h1 { line-height: 1.3 !important; }
-            padding: 2.5rem;
         }
         * {
             max-width: 100%;
@@ -138,56 +136,38 @@
             .mobile-text-fix {
                 font-size: 0.9rem !important;
                 line-height: 1.6 !important;
-
-                h2 {
-        font-size: 1.7rem !important;
-        line-height: 2rem !important;
-    }
-body, p, li {
-        font-size: 1.1rem !important;        /* মোবাইলের জন্য ফন্ট সাইজ ছোট বা বড় করুন */
-        line-height: 1.6 !important;     /* মোবাইলের জন্য লাইন হাইট */
-               /* মোবাইলের জন্য আলাদা গাঢ় কালার চাইলে দিতে পারেন */
-    }
-    /* H3 হেডিংয়ের মোবাইল সাইজ ও হাইট */
-    h3 {
-        font-size: 1.25rem !important;
-        line-height: 1.7rem !important;
-    }
-
-    /* H4 হেডিংয়ের মোবাইল সাইজ ও হাইট */
-    h4 {
-        font-size: 1.1rem !important;
-        line-height: 1.5rem !important;
-    }
             }
-
-            /* ফুটার টেক্সট আলাদা এবং পরিমিত সাইজ/হাইট করার জন্য */
-footer p, footer li, footer a {
-    font-size: 0.95rem !important; /* ফুটারের টেক্সট ছোট ও সুন্দর রাখবে */
-    line-height: 1.6 !important;    /* ফুটারের টেক্সট হাইট বা দূরত্ব ঠিক রাখবে */
-}
+            h2 {
+                font-size: 1.7rem !important;
+                line-height: 2rem !important;
+            }
+            body, p, li {
+                font-size: 1.1rem !important;
+                line-height: 1.6 !important;
+            }
+            h3 {
+                font-size: 1.25rem !important;
+                line-height: 1.7rem !important;
+            }
+            h4 {
+                font-size: 1.1rem !important;
+                line-height: 1.5rem !important;
+            }
         }
 
-/* বডি টেক্সট এবং প্যারাগ্রাফের সাইজ এবং লাইন হাইট বৃদ্ধি */
-body, p, li {
-    font-size: 1.1rem !important; /* টেক্সটের সাইজ বড় করবে */
-    line-height: 1.8 !important;    /* লাইন বা লেখার উচ্চতা/দূরত্ব বাড়াবে */
-    color: #03060a
-}
-
-/* H2 হেডিংয়ের সাইজ এবং লাইন হাইট বৃদ্ধি */
-h2 {
-    font-size: 1.9rem !important;
-    line-height: 2.2rem !important;
-}
-
-/* H3 হেডিংয়ের সাইজ এবং লাইন হাইট বৃদ্ধি */
-h3 {
-    font-size: 1.85rem !important;
-    line-height: 1.8rem !important;
-}
-
-        
+        body, p, li {
+            font-size: 1.1rem !important;
+            line-height: 1.8 !important;
+            color: #03060a;
+        }
+        h2 {
+            font-size: 1.9rem !important;
+            line-height: 2.2rem !important;
+        }
+        h3 {
+            font-size: 1.85rem !important;
+            line-height: 1.8rem !important;
+        }
     </style>
     <link rel="canonical" href="https://pendlerpauschalerechner.de/blog/commuter-allowance-2026-germany/" />
 </head>
@@ -203,15 +183,14 @@ h3 {
                     <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" stroke="#004B87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <circle cx="7" cy="17" r="2" stroke="#004B87" stroke-width="2"/>
                     <circle cx="17" cy="17" r="2" stroke="#004B87" stroke-width="2"/>
-                </svg> Pendlerpauschale Rechner
+                </svg> 
+                <span class="font-bold text-sm md:text-base text-[#004B87]" style="color: #004B87 !important;">Pendlerpauschale Rechner</span>
             </h1>
-           <div class="flex gap-3 text-sm font-bold items-center">
-    <!-- DE অপশনটি ইনঅ্যাক্টিভ করা হলো -->
-    <span class="text-slate-300 cursor-not-allowed">DE</span>
-    <span class="font-normal text-slate-300">|</span>
-    <!-- EN অপশনটি একটিভ করা হলো -->
-    <a href="/en/index.html" class="text-[#004B87] hover:underline transition">EN</a>
-</div>
+            <div class="flex gap-3 text-sm font-bold items-center">
+                <span class="text-slate-300 cursor-not-allowed">DE</span>
+                <span class="font-normal text-slate-300">|</span>
+                <a href="/en/index.html" class="text-[#004B87] hover:underline transition">EN</a>
+            </div>
         </div>
     </nav> 
 
@@ -233,11 +212,15 @@ h3 {
                 
                 <p>The year 2026 has brought a major simplification: the flat rate is now a uniform <strong>€0.38 per kilometre</strong> for the entire distance between home and work – no more complicated tiered calculations. This comprehensive guide breaks down exactly how the new system works, how it benefits you, and how you can claim your money back.</p>
 
-                <div class="tool-card">
-                    <a href="https://pendlerpauschalerechner.de/" target="_blank" rel="noopener">
-                        <span>📊 Calculate your exact commuter allowance now</span>
-                        <span class="arrow">→</span>
-                    </a>
+                <!-- Injection Box 1 Replaced -->
+                <div class="bg-blue-50/70 rounded-xl p-5 border-l-4 border-[#004B87] my-6 transition hover:bg-blue-50">
+                    <p class="font-medium text-slate-800 text-sm md:text-base">
+                        💡 <strong>Want to see how much you save?</strong> Try our 
+                        <a href="https://pendlerpauschalerechner.de/en/index.html" class="text-[#004B87] font-bold underline hover:text-blue-800 transition">
+                            Free 2026 Commuter Allowance Calculator
+                        </a> 
+                        to get your exact tax deduction in seconds.
+                    </p>
                 </div>
 
                 <h2 class="text-2xl md:text-3xl pt-4 break-words">What is the Commuter Allowance (Pendlerpauschale)?</h2>
@@ -245,11 +228,15 @@ h3 {
                 <p>It does not matter whether you take the train, drive a car, ride a bicycle, or simply walk to work. If you commute, you qualify for this tax relief.</p>
                 <p>The allowance is not a direct payment from the government, but rather a tax deduction. This means it reduces your taxable income, which in turn reduces the amount of income tax you owe. For many employees, this can result in a tax refund of several hundred Euros each year.</p>
 
-                <div class="tool-card">
-                    <a href="https://pendlerpauschalerechner.de/en/calculator" target="_blank" rel="noopener">
-                        <span>🧮 Try the free commuter allowance calculator</span>
-                        <span class="arrow">→</span>
-                    </a>
+                <!-- Injection Box 2 Replaced -->
+                <div class="bg-blue-50/70 rounded-xl p-5 border-l-4 border-[#004B87] my-6 transition hover:bg-blue-50">
+                    <p class="font-medium text-slate-800 text-sm md:text-base">
+                        🚗 <strong>Do you drive to work?</strong> Use our 
+                        <a href="https://pendlerpauschalerechner.de/" class="text-[#004B87] font-bold underline hover:text-blue-800 transition">
+                            Tax Calculator for Expats
+                        </a> 
+                        to calculate your uncapped travel deductions easily.
+                    </p>
                 </div>
 
                 <h2 class="text-2xl md:text-3xl pt-4 break-words">The 2026 Flat Rate: €0.38 per Kilometre for All Distances</h2>
@@ -262,13 +249,6 @@ h3 {
                     <li><strong>No upper limit:</strong> You can claim every kilometre, no matter how long your commute</li>
                 </ul>
                 <p>This change is particularly beneficial for long‑distance commuters, who previously received a lower rate after the first 20 km. Now, every kilometre is worth the same, making the calculation transparent and fair.</p>
-
-                <div class="tool-card">
-                    <a href="https://pendlerpauschalerechner.de/en/faq" target="_blank" rel="noopener">
-                        <span>❓ Frequently asked questions about the Pendlerpauschale</span>
-                        <span class="arrow">→</span>
-                    </a>
-                </div>
 
                 <h2 class="text-2xl md:text-3xl pt-4 break-words">How to Claim the Allowance in Your Tax Return</h2>
                 <p>To claim the commuter allowance, you simply need to fill out the relevant section of your annual tax return (Einkommensteuererklärung). You'll need to provide your home address, your workplace address, and the number of days you commuted. No receipts are required — the German tax office trusts your declaration.</p>
@@ -290,6 +270,17 @@ h3 {
                 </ul>
                 <p>Even if you work part-time or are in a training program (Ausbildung), you can still claim the allowance. The only exception is if your employer fully reimburses your travel costs — in that case, you cannot claim the deduction as well.</p>
                 <p>For expats, it's worth noting that you qualify from your first day of employment in Germany, regardless of your nationality or visa status.</p>
+
+                <!-- Injection Box 3 Added Before H2 Real-World Example -->
+                <div class="bg-blue-50/70 rounded-xl p-5 border-l-4 border-[#004B87] my-6 transition hover:bg-blue-50">
+                    <p class="font-medium text-slate-800 text-sm md:text-base">
+                        🏠 <strong>Working remotely?</strong> Try our 
+                        <a href="https://pendlerpauschalerechner.de/homeoffice-allowance-calculator/" class="text-[#004B87] font-bold underline hover:text-blue-800 transition">
+                            Home Office Allowance Calculator
+                        </a> 
+                        to calculate your remote days deductions.
+                    </p>
+                </div>
 
                 <h2 class="text-2xl md:text-3xl pt-4 break-words">Real-World Example: How Much Can You Save?</h2>
                 <p>Let's look at a practical example to understand the real impact of the new 2026 flat rate.</p>
@@ -333,13 +324,18 @@ h3 {
                     </ul>
                 </div>
 
-                <!-- Special Bottom CTA Card -->
-                <div class="special-bottom-card">
-                    <h3>🚀 Ready to claim your tax refund?</h3>
-                    <p>Use our free, instant calculator to find out exactly how much you can save with the new 2026 flat rate of €0.38 per km.</p>
-                    <a href="https://pendlerpauschalerechner.de/" class="btn" target="_blank" rel="noopener">
-                        Calculate now → 
-                    </a>
+                <!-- CTA Card No. 4 Replaced -->
+                <div class="mt-12 bg-gradient-to-br from-slate-50 to-blue-50/50 border-2 border-dashed border-[#4299e1]/40 rounded-2xl p-6 text-center">
+                    <h3 class="text-xl md:text-2xl mb-2">Ready to Maximize Your Tax Return?</h3>
+                    <p class="text-slate-600 mb-6 text-sm md:text-base">Use our free tools to instantly calculate your deductions under the new 2026 rules.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <a href="https://pendlerpauschalerechner.de/en/index.html" class="w-full sm:w-auto px-6 py-3 bg-[#004B87] hover:bg-blue-800 text-white font-bold rounded-xl shadow-sm transition text-center text-sm md:text-base">
+                            Commuter Allowance Calculator
+                        </a>
+                        <a href="https://pendlerpauschalerechner.de/homeoffice-allowance-calculator/" class="w-full sm:w-auto px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl shadow-sm transition text-center text-sm md:text-base">
+                            Home Office Calculator
+                        </a>
+                    </div>
                 </div>
 
             </div>
@@ -372,59 +368,57 @@ h3 {
         }
     </script>
 
-    <!-- Footer (Standard Site Footer)[cite: 1] -->
-    <!-- footer.html er bhitor -->
-<footer class="site-global-footer bg-white border-t border-slate-200 mt-16 py-8">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="text-center md:text-left">
-            <p class="site-footer-title mb-1 tracking-tight">
-                Pendlerpauschale Rechner
-            </p>
-            <p class="site-footer-copy">
-                &copy; 2026 Alle Rechte vorbehalten.
-            </p>
+    <!-- Footer -->
+    <footer class="site-global-footer bg-white border-t border-slate-200 mt-16 py-8">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <p class="site-footer-title mb-1 tracking-tight">
+                    Pendlerpauschale Rechner
+                </p>
+                <p class="site-footer-copy">
+                    &copy; 2026 Alle Rechte vorbehalten.
+                </p>
+            </div>
+            <nav>
+                <ul class="site-footer-nav flex flex-wrap justify-center gap-5 md:gap-8 font-medium">
+                    <li><a href="/" class="hover:text-[#004B87] transition-colors duration-200">Startseite</a></li>
+                    <li><a href="/kontakt.html" class="hover:text-[#004B87] transition-colors duration-200">Kontakt</a></li>
+                    <li><a href="/datenschutz.html" class="hover:text-[#004B87] transition-colors duration-200">Datenschutz</a></li>
+                    <li><a href="/impressum.html" class="hover:text-[#004B87] transition-colors duration-200">Impressum</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav>
-            <ul class="site-footer-nav flex flex-wrap justify-center gap-5 md:gap-8 font-medium">
-                <li><a href="/" class="hover:text-[#004B87] transition-colors duration-200">Startseite</a></li>
-                <li><a href="/kontakt.html" class="hover:text-[#004B87] transition-colors duration-200">Kontakt</a></li>
-                <li><a href="/datenschutz.html" class="hover:text-[#004B87] transition-colors duration-200">Datenschutz</a></li>
-                <li><a href="/impressum.html" class="hover:text-[#004B87] transition-colors duration-200">Impressum</a></li>
-            </ul>
-        </nav>
-    </div>
-</footer>
+    </footer>
 
-<style>
-    /* এই স্টাইলগুলো শুধুমাত্র ফুটারের জন্যই কাজ করবে, অন্য কোনো টেক্সট বা বডি স্টাইল একে পরিবর্তন করতে পারবে না */
-    .site-global-footer, 
-    .site-global-footer p, 
-    .site-global-footer span, 
-    .site-global-footer a, 
-    .site-global-footer li {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-    }
-    
-    .site-footer-title {
-        font-size: 15px !important;
-        line-height: 1.4 !important;
-        font-weight: 700 !important;
-        color: #004B87 !important;
-    }
+    <style>
+        .site-global-footer, 
+        .site-global-footer p, 
+        .site-global-footer span, 
+        .site-global-footer a, 
+        .site-global-footer li {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        }
+        
+        .site-footer-title {
+            font-size: 15px !important;
+            line-height: 1.4 !important;
+            font-weight: 700 !important;
+            color: #004B87 !important;
+        }
 
-    .site-footer-copy {
-        font-size: 12px !important;
-        line-height: 1.4 !important;
-        color: #64748b !important;
-    }
+        .site-footer-copy {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+            color: #64748b !important;
+        }
 
-    .site-footer-nav a, 
-    .site-footer-nav li {
-        font-size: 14px !important;
-        line-height: 1.4 !important;
-        color: #475569 !important;
-    }
-</style>
+        .site-footer-nav a, 
+        .site-footer-nav li {
+            font-size: 14px !important;
+            line-height: 1.4 !important;
+            color: #475569 !important;
+        }
+    </style>
 
 </body>
 </html>
