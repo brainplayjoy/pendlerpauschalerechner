@@ -177,11 +177,13 @@ h3 {
                     <circle cx="17" cy="17" r="2" stroke="#004B87" stroke-width="2"/>
                 </svg> Pendlerpauschale Rechner
             </h1>
-            <div class="flex gap-3 text-sm font-bold text-slate-400">
-                <a href="/index.html" class="text-[#004B87] cursor-pointer hover:opacity-80 transition">DE</a>
-                <span class="font-normal text-slate-300">|</span>
-                <a href="/en/index.html" class="hover:text-[#004B87] cursor-pointer transition">EN</a>
-            </div>
+           <div class="flex gap-3 text-sm font-bold items-center">
+    <!-- DE অপশনটি ইনঅ্যাক্টিভ করা হলো -->
+    <span class="text-slate-300 cursor-not-allowed">DE</span>
+    <span class="font-normal text-slate-300">|</span>
+    <!-- EN অপশনটি একটিভ করা হলো -->
+    <a href="/en/index.html" class="text-[#004B87] hover:underline transition">EN</a>
+</div>
         </div>
     </nav> 
 
