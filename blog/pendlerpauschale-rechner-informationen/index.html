@@ -136,7 +136,7 @@
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between container-fix"> 
 
     <!-- ========================================== -->
-    <!-- 3. HEADER / NAVBAR SECTION                 -->
+    <!-- 3. HEADER / NAVBAR SECTION (DE / EN)       -->
     <!-- ========================================== -->
     <nav class="bg-white border-b border-slate-200 py-4 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
@@ -150,13 +150,41 @@
                 </svg> 
                 <span style="color: #004B87 !important;">Pendlerpauschale Rechner</span>
             </h1>
-            <div class="flex gap-3 text-sm font-bold items-center">
-                <span class="text-[#004B87] cursor-not-allowed">DE</span>
+
+            <!-- ========================================== -->
+            <!--       DE / EN Section (Easy to Update)     -->
+            <!-- ========================================== -->
+            <div class="flex gap-3 text-sm font-bold items-center lang-switch-container">
+                <!-- 1. DE Link -->
+                <a id="de-link" href="https://pendlerpauschalerechner.de/blog/pendlerpauschale-rechner-informationen/" class="transition">DE</a>
+                
                 <span class="font-normal text-slate-300">|</span>
-                <a href="https://pendlerpauschalerechner.de/blog/commuter-allowance-2026-germany/" class="text-slate-400 hover:text-[#004B87] transition">EN</a>
+                
+                <!-- 2. EN Link -->
+                <a id="en-link" href="https://pendlerpauschalerechner.de/blog/commuter-allowance-2026-germany/" class="transition">EN</a>
             </div>
         </div>
-    </nav> 
+    </nav>
+
+    <!-- Sprach-Erkennungs-Skript für Active/Inactive -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentUrl = window.location.href;
+            const deLink = document.getElementById("de-link");
+            const enLink = document.getElementById("en-link");
+
+            const deUrl = deLink.getAttribute("href");
+            const enUrl = enLink.getAttribute("href");
+
+            if (currentUrl.includes(enUrl) || currentUrl.includes("commuter-allowance-2026-germany")) {
+                enLink.className = "text-[#004B87] font-extrabold cursor-default pointer-events-none underline";
+                deLink.className = "text-slate-400 hover:text-[#004B87]";
+            } else {
+                deLink.className = "text-[#004B87] font-extrabold cursor-default pointer-events-none underline";
+                enLink.className = "text-slate-400 hover:text-[#004B87]";
+            }
+        });
+    </script> 
 
     <!-- ========================================== -->
     <!-- 4. ARTICLE CONTENT SECTION                 -->
@@ -263,9 +291,59 @@
                 </ul>
                 <p>Bei einem persönlichen Steuersatz spart Anna so spürbar bei ihrer Steuerlast.</p>
 
-                <!-- Conclusion Section -->
-                <h2 class="text-2xl md:text-3xl pt-4 break-words">Fazit</h2>
-                <p>Die Neuregelung der Fahrtkostenpauschale macht es für Pendler im Jahr 2026 so einfach wie nie zuvor, finanzielle Entlastung zu erhalten. Durch den einheitlichen Kilometersatz entfallen komplizierte Berechnungen der Vergangenheit. Nutzen Sie die digitalen Optionen, um Ihre Steuerlast reibungslos zu minimieren.</p>
+                <!-- ========================================== -->
+                <!-- NEW RECOMMENDED READING & FAQ SECTION (DE) -->
+                <!-- ========================================== -->
+                <div class="mt-12 space-y-8 border-t border-slate-200 pt-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">Empfohlene Lektüre</h3>
+                        <p class="text-slate-600 mb-4 leading-relaxed">
+                            Die tägliche Fahrt zur Arbeit zu planen, kann Ihnen nicht nur Zeit sparen, sondern auch Ihre Steuerlast senken. Die Pendlerpauschale 2026 bietet vielen Arbeitnehmern in Deutschland die Möglichkeit, ihr zu versteuerndes Einkommen zu reduzieren, indem sie die Fahrtkosten zwischen Wohnung und erster Tätigkeitsstätte geltend machen.
+                        </p>
+                        <p class="text-slate-600 mb-4 leading-relaxed">
+                            Für ein möglichst genaues Ergebnis sollten Sie einen zuverlässigen Pendlerpauschale-Rechner verwenden und Ihre Fahrten sowie Arbeitstage sorgfältig dokumentieren.<br>
+                            Schon wenige Minuten Planung heute können morgen zu einer höheren Steuererstattung führen. Prüfen Sie außerdem regelmäßig die aktuellen steuerlichen Regelungen, insbesondere wenn sich Ihr Arbeitsort oder Ihre Pendelstrecke im Laufe des Jahres ändert.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-6 pb-2 border-b border-slate-200">Häufig gestellte Fragen (FAQ)</h3>
+                        <div class="space-y-5 text-slate-600">
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">1. Was ist die Pendlerpauschale?</h4>
+                                <p class="text-sm mt-1 leading-relaxed">Die Pendlerpauschale ist ein steuerlicher Werbungskostenabzug, mit dem Arbeitnehmer ihre Fahrtkosten zwischen ihrer Wohnung und ihrer ersten Tätigkeitsstätte steuerlich geltend machen können.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">2. Wie hoch ist die Pendlerpauschale in Deutschland im Jahr 2026?</h4>
+                                <p class="text-sm mt-1 leading-relaxed">Die Höhe der Pendlerpauschale richtet sich nach der einfachen Entfernung zwischen Ihrer Wohnung und Ihrem Arbeitsplatz sowie nach den für das Jahr 2026 geltenden gesetzlichen Pauschalen.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">3. Kann ich die Pendlerpauschale auch nutzen, wenn ich öffentliche Verkehrsmittel benutze?</h4>
+                                <p class="text-sm mt-1 leading-relaxed">Ja. Arbeitnehmer können die Pendlerpauschale grundsätzlich unabhängig davon beanspruchen, ob sie mit dem Auto, dem Fahrrad, zu Fuß oder mit öffentlichen Verkehrsmitteln zur Arbeit fahren.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">4. Wird die Pendlerpauschale für Hin- und Rückweg berechnet?</h4>
+                                <p class="text-sm mt-1 leading-relaxed">Nein. Die Pendlerpauschale wird ausschließlich auf Grundlage der einfachen Entfernung zwischen Ihrer Wohnung und Ihrer regelmäßigen Arbeitsstätte berechnet.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">5. Wer kann die Pendlerpauschale beantragen?</h4>
+                                <p class="text-sm mt-1 leading-relaxed">Die meisten Arbeitnehmer, die regelmäßig zwischen ihrer Wohnung und ihrer ersten Tätigkeitsstätte pendeln, können die Pendlerpauschale in Anspruch nehmen.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">6. Wie kann ich meine Pendlerpauschale für 2026 berechnen?</h4>
+                                <p class="text-sm mt-1 leading-relaxed">Am einfachsten geht das mit einem Pendlerpauschale-Rechner, der Ihre mögliche Steuerersparnis anhand Ihrer Pendelstrecke und der Anzahl Ihrer Arbeitstage berechnet.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">7. Benötige ich Nachweise für die Pendlerpauschale?</h4>
+                                <p class="text-sm mt-1 leading-relaxed">Ja. Sie sollten Ihre Pendelstrecke, Ihre Arbeitstage und gegebenenfalls weitere relevante Unterlagen aufbewahren, falls das Finanzamt einen Nachweis verlangt.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-lg">8. Hat Homeoffice Auswirkungen auf die Pendlerpauschale?</h4>
+                                <p class="text-sm mt-1 leading-relaxed">Ja. Die Pendlerpauschale kann in der Regel nur für die Tage geltend gemacht werden, an denen Sie tatsächlich zu Ihrer Arbeitsstätte gefahren sind. Tage, an denen Sie ausschließlich im Homeoffice gearbeitet haben, werden normalerweise nicht berücksichtigt.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- CTA Card -->
                 <div class="mt-12 bg-gradient-to-br from-slate-50 to-blue-50/50 border-2 border-dashed border-[#4299e1]/40 rounded-2xl p-6 text-center">
