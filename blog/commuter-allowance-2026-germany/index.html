@@ -23,6 +23,10 @@
     <!-- ========================================== -->
     <!-- 2. STYLESHEETS & FONTS SECTION             -->
     <!-- ========================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
@@ -35,10 +39,10 @@
             max-width: 100vw;
             font-size: 1.1rem !important;
             line-height: 1.8 !important;
-            color: #030912;
+            color: #03060a;
         }
-        h1, h2, h3, h4 { 
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important; 
+        h1, h2, h3, h4, .font-montserrat { 
+            font-family: 'Montserrat', sans-serif !important; 
             color: #000000 !important; 
             font-weight: 800 !important;
         }
@@ -49,7 +53,6 @@
         h3 {
             font-size: 1.85rem !important;
             line-height: 1.8rem !important;
-            
         }
         * {
             max-width: 100%;
@@ -174,8 +177,8 @@
     <!-- ========================================== -->
     <!-- 3. HEADER / NAVBAR SECTION                 -->
     <!-- ========================================== -->
-    <nav class="bg-white border-b border-slate-200 py-4 sticky top-0 z-50 container-fix">
-        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center mobile-padding-fix">
+    <nav class="bg-white border-b border-slate-200 py-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
             <h1 class="text-xl font-bold text-[#004B87] flex items-center gap-2 tracking-tight">
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0" fill="none">
                     <path d="M2 9h4" stroke="#eab308" stroke-width="2.5" stroke-linecap="round"/>
@@ -183,13 +186,12 @@
                     <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" stroke="#004B87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <circle cx="7" cy="17" r="2" stroke="#004B87" stroke-width="2"/>
                     <circle cx="17" cy="17" r="2" stroke="#004B87" stroke-width="2"/>
-                </svg> 
-                <span class="font-bold text-sm md:text-base text-[#004B87]" style="color: #004B87 !important;">Pendlerpauschale Rechner</span>
+                </svg> Pendlerpauschale Rechner
             </h1>
-            <div class="flex gap-3 text-sm font-bold items-center">
-                <span class="text-slate-300 cursor-not-allowed">DE</span>
+            <div class="flex gap-3 text-sm font-bold text-slate-400">
+                <a href="/index.html" class="hover:text-[#004B87] cursor-pointer transition">DE</a>
                 <span class="font-normal text-slate-300">|</span>
-                <a href="/en/index.html" class="text-[#004B87] hover:underline transition">EN</a>
+                <a href="/en/index.html" class="text-[#004B87] cursor-pointer hover:opacity-80 transition">EN</a>
             </div>
         </div>
     </nav> 
@@ -213,7 +215,7 @@
             <!-- Article Body Text & Injection Boxes -->
             <div class="space-y-6 text-base md:text-lg text-slate-700 leading-relaxed mobile-text-fix">
                 
-                <p>Moving to a new country comes with many financial adjustments. If you are an expat working in Germany, understanding the local tax system can save you thousands of Euros. One of the most valuable tax reliefs available to employees is the Commuter Allowance, known locally as the Pendlerpauschale.</p>
+                <p>Moving to a new country comes with many financial adjustments. If you are an expat working in Germany, understanding the local <a href="https://www.gesetze-im-internet.de/estg/__9.html" target="_blank" rel="noopener noreferrer" class="text-[#004B87] underline font-semibold">tax system</a> can save you thousands of Euros. One of the most valuable tax reliefs available to employees is the Commuter Allowance, known locally as the Pendlerpauschale.</p>
                 
                 <p>The year 2026 has brought a major simplification: the flat rate is now a uniform <strong>€0.38 per kilometre</strong> for the entire distance between home and work – no more complicated tiered calculations. This comprehensive guide breaks down exactly how the new system works, how it benefits you, and how you can claim your money back.</p>
 
@@ -310,7 +312,6 @@
                 </ul>
                 <p>With a marginal tax rate of 35%, Anna would save approximately <strong>€732</strong> in taxes. That's money back in her pocket every year!</p>
 
-                  
                 <!-- CTA Card No. 4 -->
                 <div class="mt-12 bg-gradient-to-br from-slate-50 to-blue-50/50 border-2 border-dashed border-[#4299e1]/40 rounded-2xl p-6 text-center">
                     <h3 class="text-xl md:text-2xl mb-2">Ready to Maximize Your Tax Return?</h3>
@@ -325,13 +326,11 @@
                     </div>
                 </div>
 
-
-                
                 <!-- ========================================== -->
                 <!-- 5. SOCIAL SHARING SECTION                  -->
                 <!-- ========================================== -->
                 <div class="flex flex-wrap gap-4 items-center mt-8 py-6 border-t border-slate-200">
-                    <span class="font-bold text-slate-700">Share this:</span>
+                    <span class="font-bold text-slate-700 font-montserrat">Share this:</span>
 
                     <!-- Facebook Button -->
                     <button onclick="shareOnFacebook()" class="bg-[#1877F2] text-white px-4 py-2 rounded-md hover:bg-[#166fe5] transition flex items-center gap-2 shadow-sm cursor-pointer">
@@ -352,12 +351,10 @@
                     </button>
                 </div>
 
-              <!-- Also Read Important Information Section -->
+                <!-- Also Read Important Information Section -->
                 <div class="mt-12 bg-slate-100 p-6 md:p-8 rounded-2xl border border-slate-200">
-                    <!-- h3 এর পরিবর্তে h4 ট্যাগ এবং ফন্ট সাইজ ছোট করা হলো -->
                     <h4 class="text-lg md:text-xl font-bold mb-4 text-[#004B87]">Also Read Important Information</h4>
                     <ul class="space-y-3 text-base md:text-lg">
-                        <!-- hover করার সময় ডানে স্লাইড করার জন্য inline style বা class যোগ করা হলো -->
                         <li>
                             <a href="/homeoffice-allowance-calculator/" class="font-semibold text-slate-800 hover:text-[#004B87] underline transition duration-200 inline-block hover:translate-x-1.5">
                                 → Home Office Allowance Calculator 2026
@@ -370,8 +367,6 @@
                         </li>
                     </ul>
                 </div>
-
-             
 
             </div>
         </article>
