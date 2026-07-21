@@ -173,9 +173,10 @@
 </head>
 
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between container-fix"> 
+    
 
-    <!-- ========================================== -->
-    <!-- 3. HEADER / NAVBAR SECTION                 -->
+<!-- ========================================== -->
+    <!-- 3. HEADER / NAVBAR SECTION (DE / EN)       -->
     <!-- ========================================== -->
     <nav class="bg-white border-b border-slate-200 py-4 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
@@ -189,14 +190,45 @@
                 </svg> 
                 <span style="color: #004B87 !important;">Pendlerpauschale Rechner</span>
             </h1>
-            <div class="flex gap-3 text-sm font-bold text-slate-400">
-                <a href="https://pendlerpauschalerechner.de/blog/pendlerpauschale-rechner-informationen/" class="text-[#004B87] cursor-pointer hover:opacity-80 transition">DE</a>
+
+            <!-- ========================================== -->
+            <!--       DE / EN Section (Easy to Update)     -->
+            <!-- ========================================== -->
+            <div class="flex gap-3 text-sm font-bold items-center lang-switch-container">
+                <!-- 1. DE Link (এখানে আপনার জার্মান ব্লগ বা পেজের লিংক বসাবেন) -->
+                <a id="de-link" href="https://pendlerpauschalerechner.de/blog/pendlerpauschale-rechner-informationen/" class="transition">DE</a>
+                
                 <span class="font-normal text-slate-300">|</span>
-                <a href="/en/index.html" class="hover:text-[#004B87] cursor-pointer transition">EN</a>
+                
+                <!-- 2. EN Link (এখানে আপনার ইংরেজি ব্লগ বা পেজের লিংক বসাবেন) -->
+                <a id="en-link" href="https://pendlerpauschalerechner.de/blog/commuter-allowance-2026-germany/" class="transition">EN</a>
             </div>
         </div>
-    </nav> 
+    </nav>
 
+    <!-- স্বয়ংক্রিয়ভাবে ভাষা ডিটেক্ট করে Active/Inactive করার স্ক্রিপ্ট -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentUrl = window.location.href;
+            const deLink = document.getElementById("de-link");
+            const enLink = document.getElementById("en-link");
+
+            // জার্মান লিংকের ইউআরএলটি এখানে মিলিয়ে নেওয়া হচ্ছে
+            const deUrl = deLink.getAttribute("href");
+
+            // যদি বর্তমান পেজটি জার্মান লিংক হয়, তবে DE active হবে, অন্যথায় EN active হবে
+            if (currentUrl.includes(deUrl) || currentUrl.includes("pendlerpauschale-rechner-informationen")) {
+                deLink.className = "text-[#004B87] font-extrabold cursor-default pointer-events-none underline";
+                enLink.className = "text-slate-400 hover:text-[#004B87]";
+            } else {
+                enLink.className = "text-[#004B87] font-extrabold cursor-default pointer-events-none underline";
+                deLink.className = "text-slate-400 hover:text-[#004B87]";
+            }
+        });
+    </script>
+
+
+    
     <!-- ========================================== -->
     <!-- 4. ARTICLE CONTENT SECTION                 -->
     <!-- ========================================== -->
