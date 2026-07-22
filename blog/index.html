@@ -1,1 +1,244 @@
-Text
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Übersicht aller Artikel und Ratgeber rund um die Pendlerpauschale und Steuern in Deutschland.">
+    <title>Ratgeber & Blog - Pendlerpauschale Rechner</title>
+    
+    <!-- ========================================== -->
+    <!-- 1. META & SEO SECTION                       -->
+    <!-- ========================================== -->
+    <meta property="og:site_name" content="Pendlerpauschale Rechner" />
+    <meta property="og:title" content="Ratgeber & Blog - Pendlerpauschale Rechner" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pendlerpauschalerechner.de/blog/" />
+    
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="canonical" href="https://pendlerpauschalerechner.de/blog/" />
+    
+    <!-- ========================================== -->
+    <!-- 2. STYLESHEETS & FONTS SECTION             -->
+    <!-- ========================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Global Styles */
+        body { 
+            font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+            font-size: 1.1rem !important;
+            line-height: 1.8 !important;
+            color: #0b1329 !important;
+        }
+        h1, h2, h3, h4, .font-montserrat { 
+            font-family: 'Montserrat', sans-serif !important; 
+            color: #000000 !important; 
+            font-weight: 800 !important;
+        }
+
+        /* Card Description Line Clamp (Controls text height uniformly) */
+        .card-desc-clamp {
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Max 3 lines */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Mobile Menu Transition */
+        #mobile-menu {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between"> 
+
+    <!-- ========================================== -->
+    <!-- 3. HEADER SECTION FOR DESKTOP & MOBILE     -->
+    <!-- ========================================== -->
+    <nav class="bg-white border-b border-slate-200 py-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            
+            <!-- Logo Section -->
+            <h1 class="text-xl font-bold flex items-center gap-2 tracking-tight" style="color: #004B87 !important;">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0" fill="none">
+                    <path d="M2 9h4" stroke="#eab308" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M4 5h3" stroke="#eab308" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" stroke="#004B87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="7" cy="17" r="2" stroke="#004B87" stroke-width="2"/>
+                    <circle cx="17" cy="17" r="2" stroke="#004B87" stroke-width="2"/>
+                </svg> 
+                <span style="color: #004B87 !important;">Pendlerpauschale Rechner</span>
+            </h1>
+
+            <!-- Right Nav Links & Controls -->
+            <div class="flex items-center gap-5">
+                <!-- Blog Text link (Left of DE | EN) -->
+                <a href="/blog/" class="font-bold text-base hover:opacity-80 transition" style="color: #004B87 !important;">Blog</a>
+
+                <!-- DE / EN Language Switcher -->
+                <div class="flex gap-2 text-sm font-bold items-center">
+                    <a href="/blog/" class="text-[#004B87] font-extrabold underline">DE</a>
+                    <span class="font-normal text-slate-300">|</span>
+                    <a href="/en/blog/" class="text-slate-400 hover:text-[#004B87] transition">EN</a>
+                </div>
+
+                <!-- Hamburger Menu Button for Mobile (Right of DE | EN) -->
+                <button id="hamburger-btn" class="md:hidden text-slate-700 focus:outline-none p-1">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu (Future Categories Container) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-4 shadow-lg">
+            <nav class="flex flex-col space-y-3 font-semibold text-slate-700">
+                <a href="/" class="hover:text-[#004B87] transition">Startseite</a>
+                <a href="/blog/" class="hover:text-[#004B87] transition" style="color: #004B87 !important;">Blog Articles</a>
+                <!-- Future Categories can be listed here -->
+            </nav>
+        </div>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- 4. MAIN BLOG CONTAINER SECTION             -->
+    <!-- ========================================== -->
+    <main class="max-w-6xl mx-auto px-4 py-10 flex-grow w-full">
+        
+        <!-- Page Title Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-3 text-slate-900">Ratgeber & Aktuelle Artikel</h2>
+            <p class="text-slate-600 max-w-2xl mx-auto text-base">Erfahren Sie alles Wichtige rund um die Pendlerpauschale 2026, Steuertipps und Entlastungen für Arbeitnehmer.</p>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 5. GERMAN BLOG SECTION & CARD CONTAINER    -->
+        <!-- ========================================== -->
+        <section class="mb-16">
+            <div class="flex items-center justify-between mb-6 border-b border-slate-200 pb-3">
+                <h3 class="text-2xl font-bold text-slate-900">Deutsche Beiträge (DE)</h3>
+            </div>
+            
+            <!-- Grid Container: 3 cols on desktop, 1 col on mobile -->
+            <div id="german-blogs-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Dynamic cards will be injected here via JavaScript -->
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 6. ENGLISH BLOG SECTION & CARD CONTAINER   -->
+        <!-- ========================================== -->
+        <section class="mb-10">
+            <div class="flex items-center justify-between mb-6 border-b border-slate-200 pb-3">
+                <h3 class="text-2xl font-bold text-slate-900">English Articles (EN)</h3>
+            </div>
+            
+            <!-- Grid Container: 3 cols on desktop, 1 col on mobile -->
+            <div id="english-blogs-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Dynamic cards will be injected here via JavaScript -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- 7. FOOTER SECTION                          -->
+    <!-- ========================================== -->
+    <footer class="site-global-footer bg-white border-t border-slate-200 mt-12 py-8">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <p class="site-footer-title mb-1 tracking-tight font-bold" style="color: #004B87 !important;">
+                    Pendlerpauschale Rechner
+                </p>
+                <p class="site-footer-copy text-xs text-slate-500">
+                    &copy; 2026 Alle Rechte vorbehalten.
+                </p>
+            </div>
+            <nav>
+                <ul class="site-footer-nav flex flex-wrap justify-center gap-5 md:gap-8 font-medium text-slate-600 text-sm">
+                    <li><a href="/" class="hover:text-[#004B87] transition-colors duration-200">Startseite</a></li>
+                    <li><a href="/kontakt.html" class="hover:text-[#004B87] transition-colors duration-200">Kontakt</a></li>
+                    <li><a href="/datenschutz.html" class="hover:text-[#004B87] transition-colors duration-200">Datenschutz</a></li>
+                    <li><a href="/impressum.html" class="hover:text-[#004B87] transition-colors duration-200">Impressum</a></li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- 8. JAVASCRIPT AUTOMATION & LOGIC           -->
+    <!-- ========================================== -->
+    <script>
+        // Mobile Hamburger Menu Toggle Logic
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburgerBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Dynamic JSON Feed Loader for Blogs
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('blogs.json')
+                .then(response => response.json())
+                .then(blogs => {
+                    const deGrid = document.getElementById('german-blogs-grid');
+                    const enGrid = document.getElementById('english-blogs-grid');
+
+                    blogs.forEach(blog => {
+                        // Card Template with Zoom on hover, shadow, font styles, and custom date styling
+                        const cardHTML = `
+                            <a href="${blog.url}" class="group bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                                <div>
+                                    <!-- 1. Thumbnail Image with smooth zoom -->
+                                    <div class="overflow-hidden bg-slate-100 h-48">
+                                        <img src="${blog.image}" alt="${blog.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                    
+                                    <!-- Content Body -->
+                                    <div class="p-6">
+                                        <!-- 2. Blog Title -->
+                                        <h4 class="font-montserrat font-bold text-xl text-slate-900 group-hover:text-[#004B87] transition-colors mb-3 leading-snug">
+                                            ${blog.title}
+                                        </h4>
+                                        <!-- 3. Short Meta Description with line clamping -->
+                                        <p class="card-desc-clamp text-slate-600 text-sm leading-relaxed">
+                                            ${blog.description}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Card Footer: Date (Arial, small font, slightly light black) & Read More Action -->
+                                <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-slate-50 mt-auto">
+                                    <span style="font-family: Arial, sans-serif; font-size: 0.82rem; color: #4b5563;" class="font-normal">
+                                        ${blog.dateLabel}
+                                    </span>
+                                    <span class="text-sm font-bold text-[#004B87] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                        ${blog.readMoreText} &rarr;
+                                    </span>
+                                </div>
+                            </a>
+                        `;
+
+                        // Append to respective language section
+                        if (blog.language === 'de') {
+                            deGrid.innerHTML += cardHTML;
+                        } else if (blog.language === 'en') {
+                            enGrid.innerHTML += cardHTML;
+                        }
+                    });
+                })
+                .catch(error => console.error('Error loading blogs feed:', error));
+        });
+    </script>
+</body>
+</html>
