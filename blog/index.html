@@ -80,8 +80,11 @@
 
             <!-- Right Nav Links & Controls -->
             <div class="flex items-center gap-5">
-                <!-- Blog Text link -->
-                <a href="https://pendlerpauschalerechner.de/blog/" class="font-bold text-base hover:opacity-80 transition" style="color: #004887 !important;">Blog</a>
+                <!-- Heim & Blog Links -->
+                <div class="hidden md:flex items-center gap-5">
+                    <a href="https://pendlerpauschalerechner.de/" class="font-bold text-base hover:opacity-80 transition" style="color: #004887 !important;">Heim</a>
+                    <a href="https://pendlerpauschalerechner.de/blog/" class="font-bold text-base hover:opacity-80 transition" style="color: #004887 !important;">Blog</a>
+                </div>
 
                 <!-- Hamburger Menu Button for Mobile -->
                 <button id="hamburger-btn" class="md:hidden text-slate-700 focus:outline-none p-1">
@@ -95,12 +98,14 @@
         <!-- Mobile Dropdown Menu (Future Categories Container) -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-4 shadow-lg">
             <nav class="flex flex-col space-y-3 font-semibold text-slate-700">
-                <a href="/" class="hover:text-[#004B87] transition">Startseite</a>
-                <a href="https://pendlerpauschalerechner.de/blog/" class="hover:text-[#004B87] transition" style="color: #004887 !important;">Blog Articles</a>
+                <a href="https://pendlerpauschalerechner.de/" class="hover:text-[#004B87] transition" style="color: #004887 !important;">Heim</a>
+                <a href="https://pendlerpauschalerechner.de/blog/" class="hover:text-[#004B87] transition" style="color: #004887 !important;">Blog</a>
                 <!-- Future Categories can be listed here -->
             </nav>
         </div>
     </nav>
+    
+    
 
     <!-- ========================================== -->
     <!-- 4. MAIN BLOG CONTAINER SECTION             -->
