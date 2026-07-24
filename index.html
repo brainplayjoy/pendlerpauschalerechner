@@ -52,10 +52,10 @@
             <!-- Desktop Menu & Language Switcher -->
             <div class="hidden md:flex items-center gap-8">
                 <div class="flex gap-6 text-sm font-semibold text-slate-600">
-                    <a href="https://pendlerpauschalerechner.de/" class="hover:text-[#004B87] transition">Heim</a>
-                    <a href="#" class="hover:text-[#004B87] transition">Rechner</a>
-                    <a href="#" class="hover:text-[#004B87] transition">Checkliste</a>
-                    <a href="https://pendlerpauschalerechner.de/blog/" class="hover:text-[#004B87] transition">Blog</a>
+                    <a href="https://pendlerpauschalerechner.de/" class="hover:text-[#004B87] transition" style="font-size: 16px; font-weight: bold; color: #004B87;">Heim</a>
+                    <a href="#" class="hover:text-[#004B87] transition" style="font-size: 16px; font-weight: bold; color: #004B87;">Rechner</a>
+                    <a href="#" class="hover:text-[#004B87] transition" style="font-size: 16px; font-weight: bold; color: #004B87;">Checkliste</a>
+                    <a href="https://pendlerpauschalerechner.de/blog/" class="hover:text-[#004B87] transition" style="font-size: 16px; font-weight: bold; color: #004B87;">Blog</a>
                 </div>
                 <div class="flex gap-3 text-sm font-bold text-slate-400">
                     <a href="/index.html" class="text-[#004B87] cursor-pointer hover:opacity-80 transition">DE</a>
@@ -81,10 +81,10 @@
 
         <!-- Mobile Dropdown Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-4 pt-4 pb-3 border-t border-slate-100 mt-3 bg-white space-y-3">
-            <a href="https://pendlerpauschalerechner.de/" class="block text-sm font-semibold text-slate-700 hover:text-[#004B87]">Heim</a>
-            <a href="#" class="block text-sm font-semibold text-slate-700 hover:text-[#004B87]">Rechner</a>
-            <a href="#" class="block text-sm font-semibold text-slate-700 hover:text-[#004B87]">Checkliste</a>
-            <a href="https://pendlerpauschalerechner.de/blog/" class="block text-sm font-semibold text-slate-700 hover:text-[#004B87]">Blog</a>
+            <a href="https://pendlerpauschalerechner.de/" class="block hover:text-[#004B87]" style="font-size: 16px; font-weight: bold; color: #004B87;">Heim</a>
+            <a href="#" class="block hover:text-[#004B87]" style="font-size: 16px; font-weight: bold; color: #004B87;">Rechner</a>
+            <a href="#" class="block hover:text-[#004B87]" style="font-size: 16px; font-weight: bold; color: #004B87;">Checkliste</a>
+            <a href="https://pendlerpauschalerechner.de/blog/" class="block hover:text-[#004B87]" style="font-size: 16px; font-weight: bold; color: #004B87;">Blog</a>
         </div>
     </nav>
 
@@ -159,7 +159,7 @@
 
         <!-- 3. Mobile Cards -->
         <div class="space-y-3">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">Das könnte Sie auch interessieren</h3>
+            <h3 class="text-xs font-bold uppercase tracking-wider px-1 text-[#004B87]">Das könnte Sie auch interessieren</h3>
             
             <a href="/homeoffice-pauschale-rechner/" class="bg-[#fff5cc] p-4 rounded-xl border border-[#ffe066] flex gap-3 items-center shadow-sm hover:border-[#004B87] hover:shadow-md transition cursor-pointer group">
                 <div class="text-xl bg-white p-2 rounded-md transition grayscale group-hover:grayscale-0">🏠</div>
@@ -330,7 +330,7 @@
 
         <!-- Right Column (Sidebar Tools) -->
         <div class="col-start-3 space-y-4">
-            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider px-1">Das könnte Sie auch interessieren</h3>
+            <h3 class="text-sm font-bold uppercase tracking-wider px-1 text-[#004B87]">Das könnte Sie auch interessieren</h3>
             
             <a href="/homeoffice-pauschale-rechner/" class="bg-[#fff5cc] p-5 rounded-xl border border-[#ffe066] hover:border-[#004B87] hover:shadow-md transition cursor-pointer flex gap-4 items-start group">
                 <div class="text-2xl bg-white p-2 rounded-md transition grayscale group-hover:grayscale-0">🏠</div>
@@ -440,7 +440,7 @@
                 currency: 'EUR'
             }) + " / Tag";
 
-            document.getElementById(`result-${viewMode}`).innerText = totalDeduction.toLocaleString('de-DE', {
+            document.getElementById(`result-${viewMode}`).innerText = totalDeductions = totalDeduction.toLocaleString('de-DE', {
                 style: 'currency',
                 currency: 'EUR'
             });
