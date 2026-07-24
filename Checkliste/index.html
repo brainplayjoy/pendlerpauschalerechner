@@ -1,855 +1,311 @@
-/* =========================================================
-   Steuer Checkliste — Application Logic
-   Vanilla JavaScript, no framework, no build step.
-   ========================================================= */
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kostenlose Steuer Checkliste für Deutschland. Organisieren Sie Ihre Steuerunterlagen, verfolgen Sie Ihren Fortschritt und exportieren Sie Ihre Checkliste als PDF.">
+    <title>Steuer Checkliste - Unterlagen für die Steuererklärung | Pendlerpauschale Rechner</title>
 
-(function () {
-  'use strict';
-
-  /* ---------------------------------------------------------
-     1. DATA — Checklist categories and tasks (German content)
-     --------------------------------------------------------- */
-  const CHECKLIST_DATA = [
+    <script type="application/ld+json">
     {
-      id: 'personal',
-      icon: 'user',
-      title: 'Persönliche Unterlagen',
-      tasks: [
-        'Personalausweis oder Reisepass (Kopie)',
-        'Steuerliche Identifikationsnummer',
-        'IBAN für die Erstattung',
-        'Änderungen der Anschrift im Steuerjahr',
-        'Nachweis über Änderung des Familienstands',
-        'Kirchensteuer-Zugehörigkeit prüfen'
-      ]
-    },
-    {
-      id: 'employment',
-      icon: 'briefcase',
-      title: 'Arbeitsunterlagen',
-      tasks: [
-        'Lohnsteuerbescheinigung des Arbeitgebers',
-        'Letzte Gehaltsabrechnung des Jahres',
-        'Nachweise über Abfindungen oder Sonderzahlungen',
-        'Arbeitsvertrag bei neuem Arbeitgeber',
-        'Bescheinigungen zu Fortbildungen',
-        'Reisekostenabrechnungen',
-        'Nachweis über Kurzarbeitergeld (falls zutreffend)'
-      ]
-    },
-    {
-      id: 'commute',
-      icon: 'car',
-      title: 'Pendlerpauschale',
-      tasks: [
-        'Anzahl der Arbeitstage im Büro',
-        'Entfernung zwischen Wohnung und erster Tätigkeitsstätte',
-        'Nachweise über ÖPNV-Nutzung (z. B. Jahreskarte)',
-        'Nachweise zur Fahrgemeinschaft',
-        'Tankquittungen bei Nutzung des eigenen Fahrzeugs',
-        'Nachweis über Fahrrad- oder Motorradnutzung'
-      ]
-    },
-    {
-      id: 'homeoffice',
-      icon: 'home',
-      title: 'Home Office',
-      tasks: [
-        'Anzahl der Home-Office-Tage im Jahr',
-        'Nachweis für die Home-Office-Pauschale',
-        'Größe des separaten Arbeitszimmers (falls vorhanden)',
-        'Anteilige Nebenkosten der Wohnung',
-        'Beruflich genutzte Internet- und Telefonkosten',
-        'Anteilige Stromkosten'
-      ]
-    },
-    {
-      id: 'equipment',
-      icon: 'laptop',
-      title: 'Arbeitsmittel',
-      tasks: [
-        'Rechnungen für Laptop oder PC',
-        'Rechnungen für Bürostuhl und Schreibtisch',
-        'Belege für Fachliteratur',
-        'Rechnungen für Software-Lizenzen',
-        'Nachweise über beruflich genutztes Telefon',
-        'Belege für Arbeits- oder Berufskleidung'
-      ]
-    },
-    {
-      id: 'insurance',
-      icon: 'shield',
-      title: 'Versicherungen',
-      tasks: [
-        'Beitragsnachweis Haftpflichtversicherung',
-        'Beitragsnachweis Berufsunfähigkeitsversicherung',
-        'Beitragsnachweis Krankenversicherung',
-        'Beitragsnachweis Rentenversicherung',
-        'Beitragsnachweis Unfallversicherung',
-        'Beitragsnachweis Risikolebensversicherung'
-      ]
-    },
-    {
-      id: 'donations',
-      icon: 'heart-handshake',
-      title: 'Spenden',
-      tasks: [
-        'Spendenquittungen gemeinnütziger Organisationen',
-        'Nachweise über Mitgliedsbeiträge',
-        'Nachweise über Parteispenden',
-        'Nachweise über Sachspenden',
-        'Nachweise über Spenden an die Kirche'
-      ]
-    },
-    {
-      id: 'family',
-      icon: 'users',
-      title: 'Familie',
-      tasks: [
-        'Nachweise über Kindergeld',
-        'Belege für Kinderbetreuungskosten',
-        'Nachweise über Schulgeld',
-        'Nachweise über Unterhaltszahlungen',
-        'Steuerdaten des Ehe- oder Lebenspartners',
-        'Elterngeldbescheid'
-      ]
-    },
-    {
-      id: 'investments',
-      icon: 'trending-up',
-      title: 'Kapitalanlagen',
-      tasks: [
-        'Jahressteuerbescheinigung der Bank',
-        'Freistellungsauftrag prüfen und aktualisieren',
-        'Verlustbescheinigung des Depots',
-        'Zinsbescheinigungen',
-        'Dividendenabrechnungen',
-        'Übersicht über Kryptowährungs-Transaktionen'
-      ]
-    },
-    {
-      id: 'final',
-      icon: 'clipboard-check',
-      title: 'Abschlusskontrolle',
-      tasks: [
-        'Alle Belege chronologisch sortiert',
-        'Steuerbescheid des Vorjahres griffbereit',
-        'ELSTER-Zugang aktiv und Zertifikat gültig',
-        'Abgabefrist geprüft',
-        'Rücksprache mit Steuerberater gehalten (falls nötig)',
-        'Checkliste vollständig durchgegangen',
-        'Checkliste als PDF exportiert und gesichert'
-      ]
-    }
-  ];
-
-  /* ---------------------------------------------------------
-     2. STATE
-     --------------------------------------------------------- */
-  const STORAGE_KEYS = {
-    tasks: 'steuerChecklist.tasks',
-    notes: 'steuerChecklist.notes',
-    notesTimestamp: 'steuerChecklist.notesTimestamp',
-    theme: 'steuerChecklist.theme',
-    openCategories: 'steuerChecklist.openCategories'
-  };
-
-  const TOTAL_TASKS = CHECKLIST_DATA.reduce((sum, cat) => sum + cat.tasks.length, 0);
-  const CIRCUMFERENCE = 2 * Math.PI * 58; // matches SVG circle r=58
-
-  let taskState = loadJSON(STORAGE_KEYS.tasks, {});
-  let openCategories = loadJSON(STORAGE_KEYS.openCategories, {});
-  let hasCelebrated = false;
-  let toastTimer = null;
-  let notesSaveTimer = null;
-
-  function loadJSON(key, fallback) {
-    try {
-      const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    } catch (err) {
-      console.warn('Konnte gespeicherte Daten nicht laden:', key, err);
-      return fallback;
-    }
-  }
-
-  function saveJSON(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (err) {
-      console.warn('Konnte Daten nicht speichern:', key, err);
-    }
-  }
-
-  function taskKey(categoryId, index) {
-    return categoryId + '::' + index;
-  }
-
-  /* ---------------------------------------------------------
-     3. DOM REFERENCES
-     --------------------------------------------------------- */
-  const el = {
-    checklist: document.getElementById('checklist'),
-    noResults: document.getElementById('noResults'),
-    progressPercent: document.getElementById('progressPercent'),
-    progressSummary: document.getElementById('progressSummary'),
-    progressBarFill: document.getElementById('progressBarFill'),
-    progressBarOuter: document.getElementById('progressBarOuter'),
-    progressRingValue: document.getElementById('progressRingValue'),
-    progressCard: document.getElementById('progressCard'),
-    progressEta: document.getElementById('progressEta'),
-    statCompleted: document.getElementById('statCompleted'),
-    statOpen: document.getElementById('statOpen'),
-    statTotal: document.getElementById('statTotal'),
-    darkModeToggle: document.getElementById('darkModeToggle'),
-    searchToggle: document.getElementById('searchToggle'),
-    searchBar: document.getElementById('searchBar'),
-    searchInput: document.getElementById('searchInput'),
-    searchClear: document.getElementById('searchClear'),
-    searchResultCount: document.getElementById('searchResultCount'),
-    expandAllBtn: document.getElementById('expandAllBtn'),
-    exportPdfBtn: document.getElementById('exportPdfBtn'),
-    resetBtn: document.getElementById('resetBtn'),
-    resetModalOverlay: document.getElementById('resetModalOverlay'),
-    resetCancelBtn: document.getElementById('resetCancelBtn'),
-    resetConfirmBtn: document.getElementById('resetConfirmBtn'),
-    notesTextarea: document.getElementById('notesTextarea'),
-    notesCharCount: document.getElementById('notesCharCount'),
-    notesTimestamp: document.getElementById('notesTimestamp'),
-    ctaStart: document.getElementById('ctaStart'),
-    toast: document.getElementById('toast'),
-    toastMessage: document.getElementById('toastMessage'),
-    footerYear: document.getElementById('footerYear'),
-    confettiCanvas: document.getElementById('confettiCanvas')
-  };
-
-  /* ---------------------------------------------------------
-     4. RENDER CHECKLIST
-     --------------------------------------------------------- */
-  function renderChecklist() {
-    const fragment = document.createDocumentFragment();
-
-    CHECKLIST_DATA.forEach((category, catIndex) => {
-      const card = document.createElement('article');
-      card.className = 'category-card';
-      card.dataset.categoryId = category.id;
-      card.style.animationDelay = (catIndex * 40) + 'ms';
-
-      const isOpen = !!openCategories[category.id];
-      if (isOpen) card.classList.add('is-open');
-
-      const headerId = 'cat-header-' + category.id;
-      const bodyId = 'cat-body-' + category.id;
-
-      card.innerHTML =
-        '<button class="category-card__header" id="' + headerId + '" ' +
-          'aria-expanded="' + isOpen + '" aria-controls="' + bodyId + '" type="button">' +
-          '<span class="category-card__icon"><i data-lucide="' + category.icon + '" aria-hidden="true"></i></span>' +
-          '<span class="category-card__heading">' +
-            '<span class="category-card__title">' + category.title + '</span>' +
-            '<span class="category-card__meta">' + category.tasks.length + ' Aufgaben</span>' +
-          '</span>' +
-          '<span class="category-card__badge" data-role="badge">0 / ' + category.tasks.length + '</span>' +
-          '<i data-lucide="chevron-down" class="category-card__chevron" aria-hidden="true"></i>' +
-        '</button>' +
-        '<div class="category-card__body" id="' + bodyId + '" role="region" aria-labelledby="' + headerId + '">' +
-          '<div class="category-card__body-inner">' +
-            '<ul class="task-list" data-role="task-list"></ul>' +
-          '</div>' +
-        '</div>';
-
-      const taskList = card.querySelector('[data-role="task-list"]');
-
-      category.tasks.forEach((taskText, taskIndex) => {
-        const key = taskKey(category.id, taskIndex);
-        const checked = !!taskState[key];
-        const inputId = 'task-' + category.id + '-' + taskIndex;
-
-        const li = document.createElement('li');
-        li.className = 'task-item';
-        li.dataset.taskText = taskText.toLowerCase();
-
-        li.innerHTML =
-          '<span class="task-checkbox">' +
-            '<input type="checkbox" id="' + inputId + '" ' + (checked ? 'checked' : '') + ' ' +
-              'data-category="' + category.id + '" data-index="' + taskIndex + '">' +
-            '<span class="task-checkbox__box">' +
-              '<i data-lucide="check" aria-hidden="true"></i>' +
-            '</span>' +
-          '</span>' +
-          '<label class="task-item__label" for="' + inputId + '">' +
-            '<span class="task-item__text">' + taskText + '</span>' +
-          '</label>';
-
-        taskList.appendChild(li);
-      });
-
-      // Header click toggles open/closed
-      const headerBtn = card.querySelector('.category-card__header');
-      headerBtn.addEventListener('click', () => toggleCategory(card, category.id));
-
-      fragment.appendChild(card);
-    });
-
-    el.checklist.innerHTML = '';
-    el.checklist.appendChild(fragment);
-
-    // Attach checkbox listeners (event delegation would also work, direct is fine here)
-    el.checklist.querySelectorAll('input[type="checkbox"]').forEach((input) => {
-      input.addEventListener('change', onTaskToggle);
-    });
-
-    refreshIcons();
-    updateAllBadges();
-    updateProgress();
-  }
-
-  function toggleCategory(card, categoryId) {
-    const isOpen = card.classList.toggle('is-open');
-    const header = card.querySelector('.category-card__header');
-    header.setAttribute('aria-expanded', String(isOpen));
-    openCategories[categoryId] = isOpen;
-    saveJSON(STORAGE_KEYS.openCategories, openCategories);
-  }
-
-  function onTaskToggle(event) {
-    const input = event.target;
-    const categoryId = input.dataset.category;
-    const index = input.dataset.index;
-    const key = taskKey(categoryId, index);
-
-    taskState[key] = input.checked;
-    saveJSON(STORAGE_KEYS.tasks, taskState);
-
-    updateCategoryBadge(categoryId);
-    updateProgress();
-    showToast('Automatisch gespeichert');
-  }
-
-  function updateAllBadges() {
-    CHECKLIST_DATA.forEach((category) => updateCategoryBadge(category.id));
-  }
-
-  function updateCategoryBadge(categoryId) {
-    const category = CHECKLIST_DATA.find((c) => c.id === categoryId);
-    if (!category) return;
-
-    const card = el.checklist.querySelector('[data-category-id="' + categoryId + '"]');
-    if (!card) return;
-
-    const badge = card.querySelector('[data-role="badge"]');
-    let completed = 0;
-    category.tasks.forEach((_, idx) => {
-      if (taskState[taskKey(categoryId, idx)]) completed++;
-    });
-
-    badge.textContent = completed + ' / ' + category.tasks.length;
-    badge.dataset.state = completed === 0 ? 'empty' : (completed === category.tasks.length ? 'complete' : 'partial');
-  }
-
-  /* ---------------------------------------------------------
-     5. PROGRESS CALCULATION
-     --------------------------------------------------------- */
-  function getCompletedCount() {
-    return Object.values(taskState).filter(Boolean).length;
-  }
-
-  function updateProgress() {
-    const completed = Math.min(getCompletedCount(), TOTAL_TASKS);
-    const remaining = TOTAL_TASKS - completed;
-    const percent = TOTAL_TASKS === 0 ? 0 : Math.round((completed / TOTAL_TASKS) * 100);
-
-    el.progressPercent.textContent = percent + '%';
-    el.progressSummary.textContent = completed + ' von ' + TOTAL_TASKS + ' erledigt';
-    el.progressBarFill.style.width = percent + '%';
-    el.progressBarOuter.setAttribute('aria-valuenow', String(percent));
-
-    el.statCompleted.textContent = String(completed);
-    el.statOpen.textContent = String(remaining);
-    el.statTotal.textContent = String(TOTAL_TASKS);
-
-    const offset = CIRCUMFERENCE - (percent / 100) * CIRCUMFERENCE;
-    el.progressRingValue.style.strokeDashoffset = String(offset);
-
-    if (percent >= 100) {
-      el.progressRingValue.style.stroke = 'var(--color-success)';
-    } else {
-      el.progressRingValue.style.stroke = 'var(--color-brand)';
-    }
-
-    // Estimated completion hint
-    if (remaining === 0 && TOTAL_TASKS > 0) {
-      el.progressEta.textContent = 'Alle Unterlagen vollständig — bereit zur Abgabe!';
-    } else if (completed === 0) {
-      el.progressEta.textContent = 'Noch keine Aufgabe erledigt. Legen Sie los!';
-    } else {
-      el.progressEta.textContent = 'Noch ' + remaining + ' Aufgabe' + (remaining === 1 ? '' : 'n') + ' bis zur vollständigen Checkliste.';
-    }
-
-    if (percent >= 100 && !hasCelebrated) {
-      hasCelebrated = true;
-      launchConfetti();
-    } else if (percent < 100) {
-      hasCelebrated = false;
-    }
-  }
-
-  /* ---------------------------------------------------------
-     6. DARK MODE
-     --------------------------------------------------------- */
-  function initTheme() {
-    const saved = localStorage.getItem(STORAGE_KEYS.theme);
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = saved || (prefersDark ? 'dark' : 'light');
-    applyTheme(theme);
-  }
-
-  function applyTheme(theme) {
-    if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      el.darkModeToggle.setAttribute('aria-pressed', 'true');
-      el.darkModeToggle.innerHTML = '<i data-lucide="sun" aria-hidden="true"></i> Hellmodus';
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-      el.darkModeToggle.setAttribute('aria-pressed', 'false');
-      el.darkModeToggle.innerHTML = '<i data-lucide="moon" aria-hidden="true"></i> Dunkelmodus';
-    }
-    refreshIcons();
-    saveJSON(STORAGE_KEYS.theme, theme);
-    localStorage.setItem(STORAGE_KEYS.theme, theme);
-  }
-
-  function toggleTheme() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    applyTheme(isDark ? 'light' : 'dark');
-  }
-
-  /* ---------------------------------------------------------
-     7. SEARCH
-     --------------------------------------------------------- */
-  function toggleSearchBar() {
-    const isHidden = el.searchBar.hidden;
-    el.searchBar.hidden = !isHidden;
-    el.searchToggle.setAttribute('aria-expanded', String(isHidden));
-    if (isHidden) {
-      el.searchInput.focus();
-    } else {
-      clearSearch();
-    }
-  }
-
-  function clearSearch() {
-    el.searchInput.value = '';
-    el.searchClear.hidden = true;
-    el.searchResultCount.textContent = '';
-    applySearchFilter('');
-  }
-
-  function applySearchFilter(rawQuery) {
-    const query = rawQuery.trim().toLowerCase();
-    let visibleCount = 0;
-    let anyCategoryVisible = false;
-
-    const cards = el.checklist.querySelectorAll('.category-card');
-    cards.forEach((card) => {
-      const items = card.querySelectorAll('.task-item');
-      let categoryHasMatch = false;
-
-      items.forEach((item) => {
-        const text = item.dataset.taskText || '';
-        const matches = query === '' || text.includes(query);
-        item.classList.toggle('is-hidden', !matches);
-
-        const textSpan = item.querySelector('.task-item__text');
-        if (matches && query !== '') {
-          textSpan.innerHTML = highlightMatch(textSpan.textContent, query);
-          categoryHasMatch = true;
-          visibleCount++;
-        } else {
-          textSpan.innerHTML = textSpan.textContent;
-          if (matches) visibleCount++;
-        }
-      });
-
-      const shouldShowCard = query === '' || categoryHasMatch;
-      card.hidden = !shouldShowCard;
-      if (shouldShowCard) anyCategoryVisible = true;
-
-      if (query !== '' && categoryHasMatch && !card.classList.contains('is-open')) {
-        card.classList.add('is-open');
-        card.querySelector('.category-card__header').setAttribute('aria-expanded', 'true');
-      }
-    });
-
-    el.noResults.hidden = anyCategoryVisible;
-
-    if (query === '') {
-      el.searchResultCount.textContent = '';
-    } else {
-      el.searchResultCount.textContent = visibleCount + ' Ergebnis' + (visibleCount === 1 ? '' : 'se') + ' gefunden';
-    }
-  }
-
-  function highlightMatch(text, query) {
-    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp('(' + escaped + ')', 'ig');
-    return text.replace(regex, '<mark>$1</mark>');
-  }
-
-  /* ---------------------------------------------------------
-     8. EXPAND / COLLAPSE ALL
-     --------------------------------------------------------- */
-  function toggleExpandAll() {
-    const cards = Array.from(el.checklist.querySelectorAll('.category-card'));
-    const allOpen = cards.every((card) => card.classList.contains('is-open'));
-    const nextState = !allOpen;
-
-    cards.forEach((card) => {
-      card.classList.toggle('is-open', nextState);
-      card.querySelector('.category-card__header').setAttribute('aria-expanded', String(nextState));
-      openCategories[card.dataset.categoryId] = nextState;
-    });
-
-    saveJSON(STORAGE_KEYS.openCategories, openCategories);
-
-    el.expandAllBtn.innerHTML = nextState
-      ? '<i data-lucide="chevrons-up-down" aria-hidden="true"></i> Alle einklappen'
-      : '<i data-lucide="chevrons-down-up" aria-hidden="true"></i> Alle aufklappen';
-    refreshIcons();
-  }
-
-  /* ---------------------------------------------------------
-     9. NOTES (auto-save + character counter)
-     --------------------------------------------------------- */
-  function initNotes() {
-    const savedNotes = localStorage.getItem(STORAGE_KEYS.notes) || '';
-    el.notesTextarea.value = savedNotes;
-    updateCharCount();
-
-    const savedTimestamp = localStorage.getItem(STORAGE_KEYS.notesTimestamp);
-    if (savedTimestamp) {
-      el.notesTimestamp.textContent = 'Zuletzt gespeichert: ' + savedTimestamp;
-    }
-
-    el.notesTextarea.addEventListener('input', () => {
-      updateCharCount();
-      clearTimeout(notesSaveTimer);
-      notesSaveTimer = setTimeout(saveNotes, 600);
-    });
-  }
-
-  function updateCharCount() {
-    el.notesCharCount.textContent = el.notesTextarea.value.length + ' / 4000 Zeichen';
-  }
-
-  function saveNotes() {
-    localStorage.setItem(STORAGE_KEYS.notes, el.notesTextarea.value);
-    const now = new Date();
-    const timestamp = now.toLocaleDateString('de-DE') + ', ' + now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-    localStorage.setItem(STORAGE_KEYS.notesTimestamp, timestamp);
-    el.notesTimestamp.textContent = 'Zuletzt gespeichert: ' + timestamp;
-    showToast('Notizen automatisch gespeichert');
-  }
-
-  /* ---------------------------------------------------------
-     10. RESET
-     --------------------------------------------------------- */
-  function openResetModal() {
-    el.resetModalOverlay.hidden = false;
-    el.resetConfirmBtn.focus();
-    document.addEventListener('keydown', onModalKeydown);
-  }
-
-  function closeResetModal() {
-    el.resetModalOverlay.hidden = true;
-    el.resetBtn.focus();
-    document.removeEventListener('keydown', onModalKeydown);
-  }
-
-  function onModalKeydown(event) {
-    if (event.key === 'Escape') closeResetModal();
-  }
-
-  function performReset() {
-    localStorage.removeItem(STORAGE_KEYS.tasks);
-    localStorage.removeItem(STORAGE_KEYS.notes);
-    localStorage.removeItem(STORAGE_KEYS.notesTimestamp);
-    localStorage.removeItem(STORAGE_KEYS.openCategories);
-    // Theme preference is intentionally kept.
-
-    taskState = {};
-    openCategories = {};
-    hasCelebrated = false;
-
-    renderChecklist();
-    el.notesTextarea.value = '';
-    updateCharCount();
-    el.notesTimestamp.textContent = 'Noch nicht gespeichert';
-
-    closeResetModal();
-    showToast('Alle Daten wurden zurückgesetzt');
-  }
-
-  /* ---------------------------------------------------------
-     11. PDF EXPORT
-     --------------------------------------------------------- */
-  function exportToPdf() {
-    if (!window.jspdf) {
-      showToast('PDF-Bibliothek konnte nicht geladen werden');
-      return;
-    }
-
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-    const marginX = 18;
-    let y = 20;
-
-    const completed = getCompletedCount();
-    const percent = TOTAL_TASKS === 0 ? 0 : Math.round((completed / TOTAL_TASKS) * 100);
-    const dateStr = new Date().toLocaleDateString('de-DE');
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(20);
-    doc.text('Steuer Checkliste', marginX, y);
-    y += 8;
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(100);
-    doc.text('Exportiert am ' + dateStr, marginX, y);
-    y += 10;
-
-    doc.setDrawColor(220);
-    doc.line(marginX, y, 210 - marginX, y);
-    y += 8;
-
-    doc.setTextColor(20);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.text('Fortschritt: ' + percent + '% (' + completed + ' von ' + TOTAL_TASKS + ' erledigt)', marginX, y);
-    y += 10;
-
-    CHECKLIST_DATA.forEach((category) => {
-      if (y > 270) { doc.addPage(); y = 20; }
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.setTextColor(20);
-      doc.text(category.title, marginX, y);
-      y += 6;
-
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-
-      category.tasks.forEach((taskText, idx) => {
-        if (y > 280) { doc.addPage(); y = 20; }
-        const checked = !!taskState[taskKey(category.id, idx)];
-        const marker = checked ? '[x]' : '[ ]';
-        doc.setTextColor(checked ? 120 : 20);
-        const lines = doc.splitTextToSize(marker + '  ' + taskText, 170);
-        doc.text(lines, marginX + 2, y);
-        y += 5.5 * lines.length;
-      });
-
-      y += 4;
-    });
-
-    const notes = el.notesTextarea.value.trim();
-    if (notes) {
-      if (y > 250) { doc.addPage(); y = 20; }
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.setTextColor(20);
-      doc.text('Notizen', marginX, y);
-      y += 6;
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      const noteLines = doc.splitTextToSize(notes, 170);
-      doc.text(noteLines, marginX, y);
-    }
-
-    doc.save('steuer-checkliste.pdf');
-    showToast('PDF wurde exportiert');
-  }
-
-  /* ---------------------------------------------------------
-     12. TOAST NOTIFICATIONS
-     --------------------------------------------------------- */
-  function showToast(message) {
-    clearTimeout(toastTimer);
-    el.toastMessage.textContent = message;
-    el.toast.hidden = false;
-    refreshIcons();
-    toastTimer = setTimeout(() => {
-      el.toast.hidden = true;
-    }, 2600);
-  }
-
-  /* ---------------------------------------------------------
-     13. CONFETTI (100% completion celebration)
-     --------------------------------------------------------- */
-  function launchConfetti() {
-    const canvas = el.confettiCanvas;
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const colors = ['#004B87', '#EAB308', '#22C55E', '#111111'];
-    const pieces = Array.from({ length: 140 }, () => ({
-      x: Math.random() * canvas.width,
-      y: -20 - Math.random() * canvas.height * 0.5,
-      size: 5 + Math.random() * 6,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      speedY: 2 + Math.random() * 3,
-      speedX: -1.5 + Math.random() * 3,
-      rotation: Math.random() * 360,
-      rotationSpeed: -6 + Math.random() * 12
-    }));
-
-    let frame = 0;
-    const maxFrames = 160;
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      pieces.forEach((p) => {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.rotation += p.rotationSpeed;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.rotation * Math.PI) / 180);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
-        ctx.restore();
-      });
-
-      frame++;
-      if (frame < maxFrames) {
-        requestAnimationFrame(draw);
-      } else {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Steuer Checkliste",
+      "url": "https://pendlerpauschalerechner.de/Checkliste/",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "inLanguage": "de-DE",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Pendlerpauschale Rechner",
+        "url": "https://pendlerpauschalerechner.de/"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
       }
     }
+    </script>
 
-    requestAnimationFrame(draw);
-  }
+    <meta property="og:site_name" content="Pendlerpauschale Rechner" />
+    <meta property="og:title" content="Steuer Checkliste - Unterlagen für die Steuererklärung" />
+    <meta property="og:description" content="Kostenlose Steuer Checkliste für Deutschland. Fortschritt verfolgen, Notizen speichern, als PDF exportieren." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pendlerpauschalerechner.de/Checkliste/" />
+    <meta property="og:locale" content="de_DE" />
 
-  /* ---------------------------------------------------------
-     14. BUTTON RIPPLE EFFECT
-     --------------------------------------------------------- */
-  function attachRippleEffect() {
-    document.querySelectorAll('.btn').forEach((btn) => {
-      btn.addEventListener('click', function (event) {
-        const rect = btn.getBoundingClientRect();
-        const ripple = document.createElement('span');
-        const size = Math.max(rect.width, rect.height);
-        ripple.className = 'ripple';
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
-        ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
-        btn.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
-      });
-    });
-  }
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Steuer Checkliste - Unterlagen für die Steuererklärung" />
+    <meta name="twitter:description" content="Kostenlose Steuer Checkliste für Deutschland. Fortschritt verfolgen und als PDF exportieren." />
 
-  /* ---------------------------------------------------------
-     15. STICKY PROGRESS CARD (desktop only, on scroll)
-     --------------------------------------------------------- */
-  function initStickyProgress() {
-    if (window.innerWidth < 860) return;
-    let lastState = false;
-    window.addEventListener('scroll', () => {
-      const shouldStick = window.scrollY > 260;
-      if (shouldStick !== lastState) {
-        el.progressCard.classList.toggle('is-sticky-active', shouldStick);
-        lastState = shouldStick;
-      }
-    }, { passive: true });
-  }
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  /* ---------------------------------------------------------
-     16. KEYBOARD SHORTCUTS
-     --------------------------------------------------------- */
-  function initKeyboardShortcuts() {
-    document.addEventListener('keydown', (event) => {
-      const isModifier = event.ctrlKey || event.metaKey;
-      if (!isModifier) return;
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-      if (event.key.toLowerCase() === 'p') {
-        event.preventDefault();
-        window.print();
-      } else if (event.key.toLowerCase() === 'e') {
-        event.preventDefault();
-        exportToPdf();
-      }
-    });
-  }
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        h1, h2, h3, h4, .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    </style>
 
-  /* ---------------------------------------------------------
-     17. ICON REFRESH HELPER (Lucide re-render after DOM changes)
-     --------------------------------------------------------- */
-  function refreshIcons() {
-    if (window.lucide && typeof window.lucide.createIcons === 'function') {
-      window.lucide.createIcons();
-    }
-  }
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
 
-  /* ---------------------------------------------------------
-     18. EVENT WIRING
-     --------------------------------------------------------- */
-  function initEventListeners() {
-    el.darkModeToggle.addEventListener('click', toggleTheme);
+    <!-- PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 
-    el.searchToggle.addEventListener('click', toggleSearchBar);
-    el.searchInput.addEventListener('input', (e) => {
-      el.searchClear.hidden = e.target.value === '';
-      applySearchFilter(e.target.value);
-    });
-    el.searchClear.addEventListener('click', clearSearch);
+    <link rel="canonical" href="https://pendlerpauschalerechner.de/Checkliste/" />
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    el.expandAllBtn.addEventListener('click', toggleExpandAll);
-    el.exportPdfBtn.addEventListener('click', exportToPdf);
+<body class="bg-slate-50 text-slate-800 min-h-screen">
 
-    el.resetBtn.addEventListener('click', openResetModal);
-    el.resetCancelBtn.addEventListener('click', closeResetModal);
-    el.resetConfirmBtn.addEventListener('click', performReset);
-    el.resetModalOverlay.addEventListener('click', (e) => {
-      if (e.target === el.resetModalOverlay) closeResetModal();
-    });
+    <!-- Skip link for accessibility -->
+    <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
 
-    el.ctaStart.addEventListener('click', () => {
-      document.getElementById('progressCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+    <!-- Navbar (same as homepage, for consistency across the site) -->
+    <nav class="bg-white border-b border-slate-200 py-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <a href="/" class="text-xl font-bold text-[#004B87] flex items-center gap-2 tracking-tight">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 md:w-9 md:h-9 flex-shrink-0" fill="none">
+                    <path d="M2 9h4" stroke="#eab308" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M4 5h3" stroke="#eab308" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" stroke="#004B87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="7" cy="17" r="2" stroke="#004B87" stroke-width="2"/>
+                    <circle cx="17" cy="17" r="2" stroke="#004B87" stroke-width="2"/>
+                </svg> Pendlerpauschale Rechner
+            </a>
 
-    window.addEventListener('resize', () => {
-      const canvas = el.confettiCanvas;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-  }
+            <!-- Desktop Menu & Language Switcher -->
+            <div class="hidden md:flex items-center gap-8">
+                <div class="flex gap-6 text-sm font-semibold text-slate-600">
+                    <a href="/" class="hover:text-[#004B87] transition" style="font-size: 16px; font-weight: bold; color: #004B87;">Heim</a>
+                    <a href="/" class="hover:text-[#004B87] transition" style="font-size: 16px; font-weight: bold; color: #004B87;">Rechner</a>
+                    <a href="/Checkliste/" class="hover:text-[#004B87] transition" style="font-size: 16px; font-weight: bold; color: #004B87; text-decoration: underline; text-underline-offset: 4px;" aria-current="page">Checkliste</a>
+                    <a href="https://pendlerpauschalerechner.de/blog/" class="hover:text-[#004B87] transition" style="font-size: 16px; font-weight: bold; color: #004B87;">Blog</a>
+                </div>
+                <div class="flex gap-3 text-sm font-bold text-slate-400">
+                    <a href="/Checkliste/" class="text-[#004B87] cursor-pointer hover:opacity-80 transition">DE</a>
+                    <span class="font-normal text-slate-300">|</span>
+                    <a href="/en/Checkliste/" class="hover:text-[#004B87] cursor-pointer transition">EN</a>
+                </div>
+            </div>
 
-  /* ---------------------------------------------------------
-     19. INIT
-     --------------------------------------------------------- */
-  function init() {
-    initTheme();
-    renderChecklist();
-    initNotes();
-    initEventListeners();
-    attachRippleEffect();
-    initStickyProgress();
-    initKeyboardShortcuts();
-    refreshIcons();
-    if (el.footerYear) {
-      el.footerYear.textContent = String(new Date().getFullYear());
-    }
-  }
+            <!-- Mobile Hamburger & Language Section -->
+            <div class="flex items-center gap-4 md:hidden">
+                <div class="flex gap-2 text-xs font-bold text-slate-400">
+                    <a href="/Checkliste/" class="text-[#004B87] cursor-pointer">DE</a>
+                    <span class="font-normal text-slate-300">|</span>
+                    <a href="/en/Checkliste/" class="hover:text-[#004B87] cursor-pointer">EN</a>
+                </div>
+                <button id="hamburger-btn" class="text-slate-700 focus:outline-none p-1" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-4 pt-4 pb-3 border-t border-slate-100 mt-3 bg-white space-y-3">
+            <a href="/" class="block hover:text-[#004B87]" style="font-size: 16px; font-weight: bold; color: #004B87;">Heim</a>
+            <a href="/" class="block hover:text-[#004B87]" style="font-size: 16px; font-weight: bold; color: #004B87;">Rechner</a>
+            <a href="/Checkliste/" class="block hover:text-[#004B87]" style="font-size: 16px; font-weight: bold; color: #004B87; text-decoration: underline; text-underline-offset: 4px;" aria-current="page">Checkliste</a>
+            <a href="https://pendlerpauschalerechner.de/blog/" class="block hover:text-[#004B87]" style="font-size: 16px; font-weight: bold; color: #004B87;">Blog</a>
+        </div>
+    </nav>
+
+    <script>
+        document.getElementById('hamburger-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            const expanded = !menu.classList.contains('hidden');
+            menu.classList.toggle('hidden');
+            this.setAttribute('aria-expanded', String(!expanded));
+        });
+    </script>
+
+    <div id="searchBar" class="searchbar" hidden>
+      <div class="searchbar__inner">
+        <i data-lucide="search" aria-hidden="true" class="searchbar__icon"></i>
+        <input type="search" id="searchInput" class="searchbar__input" placeholder="Aufgaben durchsuchen, z. B. „Lohnsteuerbescheinigung“ …" aria-label="Checkliste durchsuchen">
+        <button id="searchClear" class="searchbar__clear" type="button" aria-label="Suche löschen" hidden>
+          <i data-lucide="x" aria-hidden="true"></i>
+        </button>
+      </div>
+      <p id="searchResultCount" class="searchbar__count" aria-live="polite"></p>
+    </div>
+
+    <main id="main-content">
+
+        <!-- ================= HERO ================= -->
+        <section id="top" class="hero" aria-labelledby="hero-title">
+            <div class="hero__inner">
+                <p class="hero__eyebrow"><span aria-hidden="true">🇩🇪</span> Steuererklärung Deutschland</p>
+                <h1 id="hero-title" class="hero__title">Steuer Checkliste</h1>
+                <p class="hero__subtitle">Behalten Sie alle wichtigen Unterlagen für Ihre Steuererklärung im Blick.</p>
+                <div class="hero__cta-group">
+                    <button class="btn btn--primary" id="ctaStart" type="button">
+                        Jetzt starten
+                        <i data-lucide="arrow-down" aria-hidden="true"></i>
+                    </button>
+                    <button id="searchToggle" class="btn btn--ghost" type="button" aria-label="Checkliste durchsuchen" aria-expanded="false" aria-controls="searchBar">
+                        <i data-lucide="search" aria-hidden="true"></i>
+                        Aufgaben durchsuchen
+                    </button>
+                    <p class="hero__hint">Für Angestellte, Freiberufler, Selbstständige, Familien &amp; Studierende</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-container">
+
+            <!-- ================= PROGRESS CARD ================= -->
+            <section class="progress-card" id="progressCard" aria-labelledby="progress-title">
+                <div class="progress-card__ring-wrap">
+                    <svg class="progress-ring" width="132" height="132" viewBox="0 0 132 132" role="img" aria-labelledby="progress-title progressSummary">
+                        <circle class="progress-ring__bg" cx="66" cy="66" r="58"></circle>
+                        <circle class="progress-ring__value" id="progressRingValue" cx="66" cy="66" r="58"></circle>
+                    </svg>
+                    <div class="progress-ring__label">
+                        <span class="progress-ring__percent" id="progressPercent">0%</span>
+                    </div>
+                </div>
+
+                <div class="progress-card__details">
+                    <h2 id="progress-title" class="progress-card__heading">Ihr Fortschritt</h2>
+                    <p class="progress-card__summary" id="progressSummary">0 von 0 erledigt</p>
+
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Gesamtfortschritt Checkliste" id="progressBarOuter">
+                        <div class="progress-bar__fill" id="progressBarFill"></div>
+                    </div>
+
+                    <div class="progress-card__stats">
+                        <div class="stat">
+                            <span class="stat__value" id="statCompleted">0</span>
+                            <span class="stat__label">Erledigt</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__value" id="statOpen">0</span>
+                            <span class="stat__label">Offen</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__value" id="statTotal">0</span>
+                            <span class="stat__label">Gesamt</span>
+                        </div>
+                    </div>
+
+                    <p class="progress-card__eta" id="progressEta"></p>
+                </div>
+            </section>
+
+            <!-- ================= TOOLBAR ================= -->
+            <div class="toolbar">
+                <button class="btn btn--ghost" id="expandAllBtn" type="button">
+                    <i data-lucide="chevrons-down-up" aria-hidden="true"></i>
+                    Alle aufklappen
+                </button>
+                <button class="btn btn--ghost" id="exportPdfBtn" type="button">
+                    <i data-lucide="download" aria-hidden="true"></i>
+                    Als PDF exportieren
+                </button>
+                <button class="btn btn--ghost btn--danger" id="resetBtn" type="button">
+                    <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+                    Zurücksetzen
+                </button>
+                <button class="btn btn--ghost" id="darkModeToggle" type="button" aria-label="Dunkelmodus umschalten" aria-pressed="false">
+                    <i data-lucide="moon" aria-hidden="true"></i>
+                    Dunkelmodus
+                </button>
+            </div>
+
+            <!-- ================= CHECKLIST ================= -->
+            <section class="checklist" id="checklist" aria-label="Steuerunterlagen Checkliste">
+                <!-- Category cards are rendered here by script.js -->
+            </section>
+
+            <p class="no-results" id="noResults" hidden>
+                <i data-lucide="search-x" aria-hidden="true"></i>
+                Keine Aufgaben gefunden. Versuchen Sie einen anderen Suchbegriff.
+            </p>
+
+            <!-- ================= NOTES ================= -->
+            <section class="notes-card" aria-labelledby="notes-title">
+                <div class="notes-card__header">
+                    <h2 id="notes-title"><i data-lucide="notebook-pen" aria-hidden="true"></i> Notizen</h2>
+                    <span class="notes-card__timestamp" id="notesTimestamp">Noch nicht gespeichert</span>
+                </div>
+                <label for="notesTextarea" class="visually-hidden">Ihre Notizen zur Steuererklärung</label>
+                <textarea id="notesTextarea" class="notes-card__textarea" rows="6" placeholder="Notieren Sie hier offene Fragen, Fristen oder Erinnerungen zu Ihrer Steuererklärung …" maxlength="4000"></textarea>
+                <div class="notes-card__footer">
+                    <span id="notesCharCount">0 / 4000 Zeichen</span>
+                </div>
+            </section>
+
+            <!-- ================= RELATED TOOLS (matches homepage sidebar cards) ================= -->
+            <section class="related-tools" aria-labelledby="related-title">
+                <h3 id="related-title" class="related-tools__title">Das könnte Sie auch interessieren</h3>
+                <div class="related-tools__grid">
+                    <a href="/" class="related-tools__card">
+                        <div class="related-tools__icon">🚗</div>
+                        <div>
+                            <h4>Pendlerpauschale Rechner</h4>
+                            <p>Fahrtkosten zur Arbeit berechnen.</p>
+                        </div>
+                    </a>
+                    <a href="/homeoffice-pauschale-rechner/" class="related-tools__card">
+                        <div class="related-tools__icon">🏠</div>
+                        <div>
+                            <h4>Homeoffice Pauschale</h4>
+                            <p>Tagespauschale für Heimarbeit berechnen.</p>
+                        </div>
+                    </a>
+                    <div class="related-tools__card related-tools__card--soon">
+                        <div class="related-tools__icon">🏛️</div>
+                        <div>
+                            <h4>Steuerklassenrechner</h4>
+                            <p>Die optimale Steuerklasse finden.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ================= RESET CONFIRMATION MODAL ================= -->
+    <div class="modal-overlay" id="resetModalOverlay" hidden>
+        <div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="resetModalTitle" aria-describedby="resetModalDesc">
+            <h2 id="resetModalTitle">Alles zurücksetzen?</h2>
+            <p id="resetModalDesc">Alle angehakten Aufgaben, Notizen und Einstellungen werden unwiderruflich gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.</p>
+            <div class="modal__actions">
+                <button class="btn btn--ghost" id="resetCancelBtn" type="button">Abbrechen</button>
+                <button class="btn btn--danger-solid" id="resetConfirmBtn" type="button">Ja, zurücksetzen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= TOAST ================= -->
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+        <i data-lucide="check-circle" aria-hidden="true"></i>
+        <span id="toastMessage">Automatisch gespeichert</span>
+    </div>
+
+    <!-- ================= CONFETTI CANVAS ================= -->
+    <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+    <!-- Footer automatic load (shared across the site) -->
+    <div id="footer-container"></div>
+    <script>
+        fetch('/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
